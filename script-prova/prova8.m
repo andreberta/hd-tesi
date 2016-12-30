@@ -40,21 +40,15 @@ vertices_spherical(:,4) = (vertices_spherical(:,1).^2 + vertices_spherical(:,2).
              + vertices_spherical(:,3).^2).^(1/2);
 %in col 5 the inclination (theta) --> [0,pi]
 vertices_spherical(:,5) = acos(vertices_spherical(:,3) ./ vertices_spherical(:,4));
-%in col 6 the azimuth  --> [-pi/2,pi/2]
+%in col 6 the azimuth (phi) --> [-pi/2,pi/2]
 vertices_spherical(:,6) = atan(vertices_spherical(:,2) ./ vertices_spherical(:,1));
 %round number of digits of vols 5 and 6 to 4 digits
 % vertices_spherical(:,5) = round(vertices_spherical(:,5).*10000)/10000;
 % vertices_spherical(:,6) = round(vertices_spherical(:,6).*10000)/10000;
 %% Patch extraction
 
-%first method: select K nearest point with K-NN ---##TOO LONG
-% tic;
-% for ii=1:length(vertices_spherical)
-% IDX = knnsearch(vertices_spherical(:,5:6),vertices_spherical(ii,5:6),'K',5);
-% end
-% toc;
 
-%second method: define a small interval over inclination and azimuth and
+%first method: define a small interval over inclination and azimuth and
 %select all the point in the interval
 %Inclination: se va oltre pi riparte da 0 e viceversa se va sotto 0 riparti
 %da pi in giu
@@ -82,7 +76,7 @@ for ii=1:length(vertices_spherical)
 end
 
             
-%third method: combine firdt and second, select a small region near the
+%second method: combine firdt and second, select a small region near the
 %vertex, then select the k-nearest neighborhood from that region, the
 %result is the same but it should be faster
 
@@ -106,6 +100,6 @@ for ii=1:length(vertices_spherical)
     
 end
 
-IDX = knnsearch(selected(:,1:3),sdf(:,1:3),'K',5);
+IDX = knnsearch(selected(:,5:6),sdf(:,5:6),'K',5);
 
 

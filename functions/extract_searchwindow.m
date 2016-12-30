@@ -1,11 +1,11 @@
-function [ weight ] = extract_patch( vertices_spherical , vertex , vertices_num)
-%extract_patch : extract a number of verticies equal to verticies_num from
+function [ IDX,out_list ] = extract_searchwindow( vertices_spherical , vertex , wind_dim )
+%extract_patch : extract a number of verticies equal to wind_dim from
 %verticies_spherical, which are the nearest to vertex
 %vertices_spherical : list of verticies from which extract
-%vertex : its the center of patch
-%vertices_num : the number of vertices to extract around vertex
+%vertex : its the central vertex 
+%wind_dim : the number of vertices to extract around vertex
 
-wind = 0.10;
+wind = 0.05;
 selected = [];
 for ii=1:length(vertices_spherical)
     current = vertices_spherical(ii,:);
@@ -24,23 +24,9 @@ for ii=1:length(vertices_spherical)
     
 end
 %search based on the position
-IDX = knnsearch(selected(:,5:6),vertex(:,5:6),'K',vertices_num);
+IDX = knnsearch(selected(:,5:6),vertex(:,5:6),'K',wind_dim);
 
-%weight based on the value
-% %TOCHECK- weight vertices inside the patch
-sigma = norm(vertex(:,5:6) - selected(IDX(1),5:6));
-if sigma == 0
-    sigma = norm(vertex(:,5:6) - selected(IDX(2),5:6));
-end
-
-res = selected(IDX,7);
-weight = zeros(size(res));
-den = 2*sigma^2;
-
-for ii=1:vertices_num
-    temp = res(ii);
-    weight(ii) = exp(-(((temp-vertex(7))^2)/den));
-end
+out_list = selected(IDX,:);
 
 end
 
