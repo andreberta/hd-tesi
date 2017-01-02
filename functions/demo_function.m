@@ -31,9 +31,21 @@ path_complete_srf = strcat(path,surf{15});
 %% Spherical coord
 vertices_spherical = addSphericalCoord( vertices );
 
+
 %% scatterplotSphere
 scatteplotsphere( vertices_spherical, v_curv );
 
 %% extract patch
 patch_dim = 5;
-patch = extract_patch( vertices_spherical , vertices_spherical(1,:) , patch_dim);
+vertices_spherical_ = [vertices_spherical,v_curv];
+patch = extract_patch( vertices_spherical_ , vertices_spherical_(1,:) , patch_dim);
+
+%% allaZontak
+sigma = 0.1;
+patch_dim = 5;
+wimdow_dim = 20;
+v_curv_1 = v_curv + sigma *randn(size(v_curv));
+v_curv_2 = v_curv + sigma *randn(size(v_curv));
+vert_1 = [vertices_spherical,v_curv_1];
+vert_2 = [vertices_spherical,v_curv_2];
+[ patches_vert_res ] = allaZontak( vert_1, vert_2, patch_dim, wimdow_dim, sigma );

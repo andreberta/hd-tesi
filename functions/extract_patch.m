@@ -33,13 +33,13 @@ if sigma == 0
     sigma = norm(vertex(:,5:6) - selected(IDX(2),5:6));
 end
 
-res = selected(IDX,6);
+res = selected(IDX,7);
 weight = zeros(size(res));
 den = 2*sigma^2;
 
-for ii=1:vertices_num
+for ii=1:length(res)
     temp = res(ii);
-    weight(ii) = exp(-(((temp-vertex(6))^2)/den));
+    weight(ii) = exp(-(((temp-vertex(7))^2)/den));
 end
 
 res = res .* weight;
