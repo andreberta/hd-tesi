@@ -42,10 +42,16 @@ patch = extract_patch( vertices_spherical_ , vertices_spherical_(1,:) , patch_di
 
 %% allaZontak
 sigma = 0.1;
-patch_dim = 5;
-wimdow_dim = 20;
+patch_dim = 10;
+wimdow_dim = 30;
 v_curv_1 = v_curv + sigma *randn(size(v_curv));
 v_curv_2 = v_curv + sigma *randn(size(v_curv));
 vert_1 = [vertices_spherical,v_curv_1];
 vert_2 = [vertices_spherical,v_curv_2];
-[ patches_vert_res ] = allaZontak( vert_1, vert_2, patch_dim, wimdow_dim, sigma );
+[ vert_res, anomaly ] = allaZontak( vert_1, vert_2, patch_dim, wimdow_dim, sigma );
+
+surf_res = vert_res(:,1:6);
+curv_res = vert_res(:,7);
+scatteplotsphere( vertices_spherical, v_curv_1 );
+scatteplotsphere( vertices_spherical, v_curv_2 );
+scatteplotsphere( surf_res, curv_res );

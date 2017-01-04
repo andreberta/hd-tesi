@@ -5,7 +5,7 @@ function [ IDX,out_list ] = extract_searchwindow( vertices_spherical , vertex , 
 %vertex : its the central vertex 
 %wind_dim : the number of vertices to extract around vertex
 
-wind = 0.05;
+wind = 0.20;
 selected = [];
 for ii=1:length(vertices_spherical)
     current = vertices_spherical(ii,:);

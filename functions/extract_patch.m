@@ -5,7 +5,7 @@ function [ res ] = extract_patch( vertices_spherical , vertex , vertices_num)
 %vertex : its the center of patch
 %vertices_num : the number of vertices to extract around vertex
 
-wind = 0.04;
+wind = 0.15;
 selected = [];
 for ii=1:length(vertices_spherical)
     current = vertices_spherical(ii,:);
@@ -33,16 +33,17 @@ if sigma == 0
     sigma = norm(vertex(:,5:6) - selected(IDX(2),5:6));
 end
 
-res = selected(IDX,7);
-weight = zeros(size(res));
+res = selected(IDX,5:7);
+weight = zeros(length(IDX),1);
 den = 2*sigma^2;
 
 for ii=1:length(res)
-    temp = res(ii);
-    weight(ii) = exp(-(((temp-vertex(7))^2)/den));
+    temp = res(ii,:);
+    %weight(ii) = exp(-(((temp-vertex(7))^2)/den));
+    weight(ii) = exp(-(((norm(vertex(:,5:6)-temp(:,1:2)))^2)/den));
 end
 
-res = res .* weight;
+res = res(:,7) .* weight;
 
 end
 
