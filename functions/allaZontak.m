@@ -1,4 +1,6 @@
-function [ vert_res, anomaly ] = allaZontak( vert_1, vert_2, patch_dim, wimdow_dim, sigma )
+function [ vert_res, anomaly ] = allaZontak( vert_1,patches_vert_1,...
+                                             vert_2,patches_vert_2,...
+                                               patch_dim, wind_dim, sigma )
 % First attempt of reproduce the Zontak method on two surface. 
 %Input
 % vert_1: vertices list 1 comparable to the src (from new MRI)
@@ -20,34 +22,18 @@ eps = sigma * sigma;
 vert_res = vert_1;
 
 length_vert_1 = length(vert_1);
-length_vert_2 = length(vert_2);
 
-patches_vert_1 = zeros(length_vert_1, patch_dim);
-patches_vert_2 = zeros(length_vert_2, patch_dim);
 anomaly = zeros(length_vert_1, 1);
 
-%% extract patches for both the vertex lists
-fprintf('Extracting patch from first surface... \n');
-for ii=1:length_vert_1
-    patch = extract_patch(vert_1, vert_1(ii,:), patch_dim);
-    patches_vert_1(ii,:) = patch';
-end
-fprintf('DONE\n');
-fprintf('Extracting patch from second surface...\n');
-for ii=1:length_vert_2
-    patch = extract_patch(vert_2, vert_2(ii,:), patch_dim);
-    patches_vert_2(ii,:) = patch';
-end
-fprintf('DONE\n');
 
 %% compute weight
 fprintf('Computing weight and reconstracting curvature...\n');
 kk=0;
 for ii=1:length_vert_1
     %extract vertices from vert_2 in the search window
-    [ IDX,~ ] = extract_searchwindow(vert_2, vert_1(ii,:), wimdow_dim);
-    %select patches of vertices in the search window
-    selected_patches = patches_vert_2(IDX,:);
+    [ selected_patches,~ ] = extract_searchwindow(vert_2, patches_vert_2...
+                                                , vert_1(ii,:), wind_dim);
+
     
     patch_vert_1 = patches_vert_1(ii,:);
     average_vert=0;

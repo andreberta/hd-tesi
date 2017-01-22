@@ -1,5 +1,5 @@
 function [ res ] = extract_patch( vertices_spherical , vertex , vertices_num)
-%extract_patch : extract a number of verticies equal to verticies_num from
+%Extract a number of verticies equal to verticies_num from
 %verticies_spherical, which are the nearest to vertex
 %vertices_spherical : list of verticies from which extract
 %vertex : its the center of patch
@@ -43,7 +43,7 @@ for ii=1:length(res)
     weight(ii) = exp(-(((norm(vertex(:,5:6)-temp(:,1:2)))^2)/den));
 end
 
-res = res(:,7) .* weight;
+res = res(:,3) .* weight;
 
 end
 

@@ -24,21 +24,21 @@ file_surf = {'lh.inflated','rh.inflated','lh.inflated.nofix','rh.inflated.nofix'
     'lh.sphere.reg','rh.sphere.reg','lh.white','rh.white','lh.smoothwm.nofix'...
     'rh.smoothwm.nofix'};
 
-curv_length = cell(1,length(all_file)); 
-for ii = 1:length(all_file)
-    [v_curv, ~] = read_curv(strcat(path,all_file{ii}));
-    curv_length{ii} = numel(v_curv);
-end
-
-surf_lenght = cell(1,length(file_surf));
-for ii = 1:length(file_surf)
-    [v_vertices, v_faces] = read_surf(strcat(path,file_surf{ii}));
-    temp = size(v_vertices);
-    surf_lenght{ii} = temp(1);
-end
+% curv_length = cell(1,length(all_file)); 
+% for ii = 1:length(all_file)
+%     [v_curv, ~] = read_curv(strcat(path,all_file{ii}));
+%     curv_length{ii} = numel(v_curv);
+% end
+% 
+% surf_lenght = cell(1,length(file_surf));
+% for ii = 1:length(file_surf)
+%     [v_vertices, v_faces] = read_surf(strcat(path,file_surf{ii}));
+%     temp = size(v_vertices);
+%     surf_lenght{ii} = temp(1);
+% end
 
 
 %% read surf and display: method2
-path_complete_srf = strcat(path,file_surf{15});
-path_complete_crv = strcat(path,all_file{1});
+path_complete_srf = strcat(path,file_surf{18});
+path_complete_crv = strcat(path,all_file{29});
 [hf, hp, av_curv, av_filtered] = mris_display(path_complete_srf,path_complete_crv);

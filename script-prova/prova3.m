@@ -22,8 +22,8 @@ curv_file = {'lh.area','lh.sulc','rh.smoothwm.K2.crv',...
 'rh.defect_labels','rh.smoothwm.K1.crv'};
 %% read surf and didplay method1
 %load surf anc curv
-[vertices, faces] = freesurfer_read_surf(strcat(path,surf_file{15}));
-[curv, ~] = read_curv(strcat(path,curv_file{13}));
+[vertices, faces] = freesurfer_read_surf(strcat(path,surf_file{18}));
+[curv, ~] = read_curv(strcat(path,curv_file{29}));
 
 %show
 hf              = figure;

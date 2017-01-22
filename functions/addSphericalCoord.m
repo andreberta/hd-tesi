@@ -10,8 +10,8 @@ vertices_spherical(:,4) = (vertices_spherical(:,1).^2 + vertices_spherical(:,2).
              + vertices_spherical(:,3).^2).^(1/2);
 %in col 5 the inclination (theta) --> [0,pi]
 vertices_spherical(:,5) = acos(vertices_spherical(:,3) ./ vertices_spherical(:,4));
-%in col 6 the azimuth  --> [-pi/2,pi/2]
-vertices_spherical(:,6) = atan(vertices_spherical(:,2) ./ vertices_spherical(:,1));
+%in col 6 the azimuth (phi)  --> [-pi,pi]
+vertices_spherical(:,6) = atan2(vertices_spherical(:,2) , vertices_spherical(:,1));
 
 end
 
