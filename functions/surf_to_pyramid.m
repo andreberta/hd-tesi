@@ -22,6 +22,9 @@ for ii=1:cols
     [xq , yq] = meshgrid(min_theta:dif_theta/N:max_theta,min_phi:dif_phi/N:max_phi);
     vq = F(xq,yq);
     interpolated{ii} = vq;
+%     figure;
+%     h = surf(xq,yq,vq);
+%     set(h,'LineStyle','none')
     interpolated_adjusted{ii} = imadjust(vq);
     disp(ii);
 end
