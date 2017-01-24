@@ -1,4 +1,4 @@
-function scatteplotsphere( vertices_spherical, curvature ,title_plot )
+function scatteplotsphere( subject ,title_plot )
 %Plot a planar representation of curvature data of a sphere using scatterplot3
 %X coordinate is inclination (theta)
 %Y coordinate is azimuth (phi)
@@ -6,9 +6,9 @@ function scatteplotsphere( vertices_spherical, curvature ,title_plot )
 
 
 
-x = vertices_spherical(:,5);
-y = vertices_spherical(:,6);
-z = curvature;
+x = subject.vertices(:,5);
+y = subject.vertices(:,6);
+z = subject.v_curv;
 
 
 % Plot

@@ -1,6 +1,9 @@
-function [ pyramid] = surf_to_pyramid( vertices_spherical , v_curv )
+function [ subject] = surf_to_pyramid( subject )
 %SURF_TO_PYRAMID Summary of this function goes here
 %   Detailed explanation goes here
+
+vertices_spherical = subject.vertices;
+v_curv = subject.v_curv;
 
 max_theta = max(vertices_spherical(:,5));
 min_theta = min(vertices_spherical(:,5));
@@ -33,6 +36,8 @@ pyramid.F = F;
 pyramid.resolutions = resolutions;
 pyramid.interpolated = interpolated;
 pyramid.interpolated_adjusted = interpolated_adjusted;
+
+subject.pyramimid = pyramid;
 
 
 end
