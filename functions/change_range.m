@@ -1,6 +1,5 @@
 function [ new_value ] = change_range( values )
-%CHANGE_RANGE Summary of this function goes here
-%   Detailed explanation goes here
+%CHANGE_RANGE Set the range of values to be in [0.1]
 
 old_max = max(values);
 old_min = min(values);

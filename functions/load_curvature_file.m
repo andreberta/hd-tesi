@@ -1,6 +1,6 @@
-function [v_curv, fnum] = load_curvature_file( subj , number )
-%LOAD_CURVATURE_FILE Summary of this function goes here
-%   Detailed explanation goes here
+function [v_curv, fnum] = load_curvature_file( subjet , number )
+%LOAD_CURVATURE_FILE Load a curvature file for subject 
+
 
 curv = {'lh.area',             'lh.sulc',            'rh.smoothwm.K2.crv',...
         'lh.thickness',        'rh.inflated.H',      'rh.smoothwm.K.crv',...
@@ -18,8 +18,12 @@ curv = {'lh.area',             'lh.sulc',            'rh.smoothwm.K2.crv',...
         'rh.smoothwm.FI.crv',  'lh.jacobian_white',  'rh.defect_chull',...
         'rh.smoothwm.H.crv',   'rh.defect_labels',   'rh.smoothwm.K1.crv'};
 
-path_complete_crv = [subj.path,'surf/',curv{number}];
+path_complete_crv = [subjet.path,'surf/',curv{number}];
 [v_curv, fnum] = read_curv(path_complete_crv);
+
+
+v_curv = remove_curv_outliers(v_curv);
+v_curv = change_range(v_curv);
 
 end
 

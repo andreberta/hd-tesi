@@ -1,6 +1,5 @@
-function [vertices, faces] = load_surface_file( subj , number )
-%LOAD_SURFACE_FILE Summary of this function goes here
-%   Detailed explanation goes here
+function [vertices, faces] = load_surface_file( subject , number )
+%LOAD_SURFACE_FILE Load a surface file for subject
 
 surf = { 'lh.inflated',        'rh.inflated',      'lh.inflated.nofix',...
          'rh.inflated.nofix',  'lh.orig',          'rh.orig',...
@@ -10,8 +9,10 @@ surf = { 'lh.inflated',        'rh.inflated',      'lh.inflated.nofix',...
          'lh.sphere.reg',      'rh.sphere.reg',    'lh.white',...
          'rh.white'            'rh.pial'};
 
-path_complete_srf = [subj.path,'surf/',surf{number}];
+path_complete_srf = [subject.path,'surf/',surf{number}];
 [vertices, faces] = freesurfer_read_surf(path_complete_srf);
+
+vertices = addSphericalCoord( vertices );
 
 end
 

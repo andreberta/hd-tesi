@@ -1,9 +1,9 @@
 function [ error ] = pyramid_error( subj)
-%PYRAMID_ERROR Summary of this function goes here
-%   Detailed explanation goes here
+%PYRAMID_ERROR Return the error of the interpolation
+%TODO - if it is possible define an error for each level of the pyramid
 
 error = sum(abs(subj.v_curv - ...
-                    subj.pyramimid.F(subj.vertices(:,5),subj.vertices(:,6))));
+                    subj.pyramimid.F_curv(subj.vertices(:,5),subj.vertices(:,6))));
 
 
 end

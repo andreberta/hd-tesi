@@ -1,6 +1,6 @@
 function [ v_curv ] = remove_curv_outliers( v_curv )
-%REMOVE_CURV_OUTLIERS Summary of this function goes here
-%   Detailed explanation goes here
+%REMOVE_CURV_OUTLIERS Actualy are not removed but their value is changed
+%TODO - find the beast way to deal with them
 
 tmp = bsxfun(@gt,abs(bsxfun(@minus,v_curv,median(v_curv))), 3*std(v_curv));
 max_no_outliers = max(v_curv(~tmp));

@@ -1,14 +1,13 @@
-function [ subject ] = load_patient_data_( subject , srf , crv )
-%LOAD_PATIENT_DATA_ Summary of this function goes here
-%   Detailed explanation goes here
+function [ subject ] = load_patient_data_( subject , srf , crv , annot )
+%LOAD_PATIENT_DATA_ load freesurfer data relative to a patient
 
+%load surface
 [subject.vertices, subject.faces] = load_surface_file(subject,srf);
+%load curvature
 [subject.v_curv, ~] = load_curvature_file(subject,crv);
+%load annotation
+[ subject.curv_parc_region , subject.vertex_per_parc_region ] = ...
+                                    load_annotation_file( subject , annot );
 
-subject.vertices = addSphericalCoord( subject.vertices );
-
-subject.v_curv = remove_curv_outliers(subject.v_curv);
-
-subject.v_curv = change_range(subject.v_curv);
 end
 
