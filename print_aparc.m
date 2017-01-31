@@ -1,8 +1,8 @@
 
 figure;
-xq = buck04.pyramimid.meshgrid_values{end,1};
-yq = buck04.pyramimid.meshgrid_values{end,2};
-vq = buck04.pyramimid.interpolated_aparc{end};
+xq = buck04.pyramid.meshgrid_values{end,1};
+yq = buck04.pyramid.meshgrid_values{end,2};
+vq = buck04.pyramid.interpolated_aparc{end};
 h = surf(xq,yq,vq);
 set(h,'LineStyle','none')
 

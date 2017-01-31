@@ -8,28 +8,39 @@ addpath('functions');
 
 %% load patient data
 
-patient_1_lh.patient = 1;
-patient_1_lh.visit = 1;
-patient_1_lh.path = path_monkeymonkey(patient_1_lh);
 
-patient_1_rh.patient = 1;
-patient_1_rh.visit = 1;
-patient_1_rh.path = path_monkeymonkey(patient_1_rh);
+p1_curv_lh = cell(1,3);
+for ii=1:3
+    p.patient = 1;
+    p.visit = 1;
+    p.path = path_monkeymonkey(p);
+    [p] = load_patient_data_(p,10,8,5,'lh');
+    p1_curv_lh{ii} = p;
+end
 
-[ patient_1_lh ] = load_patient_data_( patient_1_lh , 16 , 13 , 6 );
-[ patient_1_rh ] = load_patient_data_( patient_1_rh , 17 , 34 , 11);
-
-%% scatterplotSphere
-scatteplotsphere( patient_1_lh,'patient1-lh.sphere.reg-lh.curv');
-scatteplotsphere( patient_1_rh,'patient1-rh.sphere.reg-rh.curv');
+p1_curv_rh = cell(1,3);
+for ii=1:3
+    p.patient = 1;
+    p.visit = 1;
+    p.path = path_monkeymonkey(p);
+    [p] = load_patient_data_(p,10,8,5,'rh');
+    p1_curv_rh{ii} = p;
+end
 
 %% interp
-[patient_1_lh] = surf_to_pyramid( patient_1_lh );
-[patient_1_rh] = surf_to_pyramid( patient_1_rh);
 
-error_patient_1_lh = pyramid_error(patient_1_lh);
-error_patient_1_rh = pyramid_error(patient_1_rh);
+for ii=1:3
+    [p1_curv_lh{ii}] = surf_to_pyramid( p1_curv_lh{ii} );
+    [p1_curv_rh{ii}] = surf_to_pyramid( p1_curv_rh{ii} );
+end
 
-%% print 
-pyramid_to_png(patient_1_lh,'bert_lh_curv');
-pyramid_to_png(patient_1_rh,'bert_rh_curv');
+%% print
+
+
+for ii=1:3
+    pyramid_to_png_create_folder(p1_curv_lh{ii});    
+    pyramid_to_png_create_folder(p1_curv_rh{ii});
+end
+
+
+

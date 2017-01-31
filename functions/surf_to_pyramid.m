@@ -15,12 +15,11 @@ dif_theta = max_theta - min_theta;
 dif_phi = max_phi - min_phi;
 
 F_curv = scatteredInterpolant(vertices_spherical(:,5),vertices_spherical(:,6),v_curv);
-F_aparc_curv = scatteredInterpolant(vertices_spherical(:,5),vertices_spherical(:,6),v_aparc_curv);
+F_aparc_curv = scatteredInterpolant(vertices_spherical(:,5),vertices_spherical(:,6),v_aparc_curv,'nearest');
 
 resolutions = [100 200 300 350 400 500 700 1000];
 [rows,cols] = size(resolutions);
 interpolated = cell(rows,1);
-interpolated_adjusted = cell(rows,1);
 interpolated_aparc = cell(rows,1);
 meshgrid_values = cell(rows,2);
 
@@ -33,7 +32,6 @@ for ii=1:cols
 %     h = surf(xq,yq,vq);
 %     set(h,'LineStyle','none')
     interpolated{ii} = vq_curv;
-    interpolated_adjusted{ii} = imadjust(vq_curv);
     interpolated_aparc{ii} = vq_aparc_curv;
     meshgrid_values{ii,1} = xq;
     meshgrid_values{ii,2} = yq;
@@ -43,11 +41,10 @@ end
 pyramid.F_curv = F_curv;
 pyramid.resolutions = resolutions;
 pyramid.interpolated = interpolated;
-pyramid.interpolated_adjusted = interpolated_adjusted;
 pyramid.interpolated_aparc = interpolated_aparc;
 pyramid.meshgrid_values = meshgrid_values;
 
-subject.pyramimid = pyramid;
+subject.pyramid = pyramid;
 
 
 end
