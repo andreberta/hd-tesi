@@ -1,6 +1,7 @@
-function [v_curv, fnum] = load_curvature_file( subjet , number , hemi )
+function [v_curv, fnum] = load_curvature_file( path , number , hemi )
 %LOAD_CURVATURE_FILE Load a curvature file for subject 
 
+%NOTE : do not use smoothwm , defect_borders , defect_chull , defect_labels
 
 curv = {'area',             'sulc', ...
         'thickness',        'area.pial',...
@@ -16,7 +17,7 @@ curv = {'area',             'sulc', ...
         'jacobian_white'...
         };
 
-path_complete_crv = [subjet.path,'surf/',hemi,'.',curv{number}];
+path_complete_crv = [path,'surf/',hemi,'.',curv{number}];
 [v_curv, fnum] = read_curv(path_complete_crv);
 
 

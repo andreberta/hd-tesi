@@ -1,28 +1,26 @@
+function print_aparc( patient ,  visit_number , hemi)
+%PRINT_APARC Print the last level of the aparc pyramid using surf
+%   Receive as input a patient a visit number and the hemisphere. The
+%   hemisphere should be 'lh' or 'rh' otherwise an error is displayed
 
+if strcmp(hemi,'lh')
+    visit = patient.visit{visit_number}.lh;
+else if strcmp(hemi,'rh')
+        visit = patient.visit{visit_number}.rh;
+    else
+        error('Hemisphere "%s" does not exist.', hemi);
+    end
+end
+
+xq = visit.pyramid_aparc.meshgrid_values{end,1};
+yq = visit.pyramid_aparc.meshgrid_values{end,2};
+vq = visit.pyramid_aparc.interpolated_aparc{end};
 figure;
-xq = buck04.pyramid.meshgrid_values{end,1};
-yq = buck04.pyramid.meshgrid_values{end,2};
-vq = buck04.pyramid.interpolated_aparc{end};
 h = surf(xq,yq,vq);
 set(h,'LineStyle','none')
 
-vq_rounded = round(vq);
-vq_contour_raw = abs(vq - vq_rounded);
-h = surf(xq,yq,vq_contour_raw);
-set(h,'LineStyle','none')
-
-figure
-hist(vq_contour_raw);
-
-ind = vq_contour_raw < 0.01;
-vq_contour_raw_ = vq_contour_raw.*(~ind) ;
+figure, imshow(vq/256);
 
 
-% h = surf(xq,yq,vq_contour_raw_);
-% set(h,'LineStyle','none')
-
-figure
-vq_contour_logical = logical(vq_contour_raw_);
-imshow(vq_contour_logical);
-
+end
 

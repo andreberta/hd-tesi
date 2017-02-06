@@ -1,5 +1,5 @@
 function [ v_curv_parc_region , vertex_per_parc_region ] = ...
-                                load_annotation_file( subject , annot , hemi )
+                                load_annotation_file( path , annot , hemi )
 %LOAD_ANNOTATION_FILE 
 
 annot_file = { 'BA.annot'                 'overlap.annot'...		    
@@ -9,8 +9,8 @@ annot_file = { 'BA.annot'                 'overlap.annot'...
                'bert_ref.aparc.annot'...
               };
 
-path_complete_annot = [subject.path,'label/',hemi,'.',annot_file{annot}];
-[vertices_annot, label_annot, ~] = read_annotation(path_complete_annot);
+path_complete_annot = [path,'label/',hemi,'.',annot_file{annot}];
+[vertices_annot, label_annot, ~] = read_annotation(path_complete_annot,0);
 vertices_annot = vertices_annot + 1;
 
 unique_parc_region = unique(label_annot);

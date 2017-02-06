@@ -9,6 +9,8 @@ addpath('functions');
 %% load patient data
 bert_lh_curv.path = 'data/bert/';
 bert_rh_curv.path = 'data/bert/';
+bert_lh_jw.path = 'data/bert/';
+bert_rh_jw.path = 'data/bert/';
 bert_lh_vol.path = 'data/bert/';
 bert_rh_vol.path = 'data/bert/';
 buck04.path = 'data/004/';
@@ -18,7 +20,12 @@ bert_rh_thick.path = 'data/bert/';
 
 [bert_lh_curv] = load_patient_data_(bert_lh_curv,10,8,5,'lh');
 [bert_rh_curv] = load_patient_data_(bert_rh_curv,10,8,5,'rh');
-[buck04  = load_patient_data_(buck04,10,8,5,'lh');
+
+[bert_lh_jw] = load_patient_data_(bert_lh_jw,10,23,5,'lh');
+[bert_rh_jw] = load_patient_data_(bert_rh_jw,10,23,5,'rh');
+
+
+[buck04]  = load_patient_data_(buck04,10,8,5,'lh');
 [bert_lh_vol] = load_patient_data_(bert_lh_vol,10,5,5,'lh');
 [bert_rh_vol] = load_patient_data_(bert_rh_vol,10,5,5,'rh');
 [bert_lh_thick] = load_patient_data_(bert_lh_thick,10,3,5,'lh');
@@ -27,6 +34,10 @@ bert_rh_thick.path = 'data/bert/';
 %% scatterplotSphere
 % scatteplotsphere( bert_lh_curv,'bert-lh.sphere.reg-lh.curv');
 % scatteplotsphere( bert_rh_curv,'bert-rh.sphere.reg-rh.curv');
+
+scatteplotsphere( bert_lh_jw,'bert-lh.sphere.reg-lh.jw');
+scatteplotsphere( bert_rh_jw,'bert-rh.sphere.reg-rh.jw');
+
 % scatteplotsphere( buck04,'buck04-lh.sphere.reg-lh.curv');
 % scatteplotsphere( bert_lh_vol,'bert-lh.sphere.reg-lh.vol');
 % scatteplotsphere( bert_rh_vol,'bert-rh.sphere.reg-lh.vol');

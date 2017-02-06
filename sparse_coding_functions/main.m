@@ -1,8 +1,8 @@
 % main di esempio
 
 
-clear
-close all
+% clear
+% close all
 
 addpath(genpath('sporco'));
 addpath('functions');

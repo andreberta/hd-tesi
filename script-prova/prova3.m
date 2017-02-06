@@ -6,6 +6,7 @@ surf_file = {'lh.inflated','rh.inflated','lh.inflated.nofix','rh.inflated.nofix'
     'lh.pial','rh.pial','lh.qsphere.nofix','rh.qsphere.nofix',...
     'lh.smoothwm','rh.smoothwm','lh.sphere','rh.sphere',...
     'lh.sphere.reg','rh.sphere.reg','lh.white','rh.white'};
+
 curv_file = {'lh.area','lh.sulc','rh.smoothwm.K2.crv',...
 'lh.thickness','rh.inflated.H','rh.smoothwm.K.crv','lh.area.pial',...
 'lh.volume','rh.inflated.K','lh.avg_curv','lh.smoothwm','rh.smoothwm.S.crv',...
@@ -22,21 +23,31 @@ curv_file = {'lh.area','lh.sulc','rh.smoothwm.K2.crv',...
 'rh.defect_labels','rh.smoothwm.K1.crv'};
 %% read surf and didplay method1
 %load surf anc curv
-[vertices, faces] = freesurfer_read_surf(strcat(path,surf_file{18}));
-[curv, ~] = read_curv(strcat(path,curv_file{29}));
+[vertices, faces] = freesurfer_read_surf(strcat(path,'lh.sphere.reg'));
+[curv, ~] = read_curv(strcat(path,'lh.inflated.H'));
 
-%show
-hf              = figure;
-hp              = patch('vertices',             vertices,             ...
-                        'faces',                faces(:,[1 3 2]),     ...
-                        'facevertexcdata',      curv,                 ...
-                        'edgecolor',            'none',                 ...
-                        'facecolor',            'interp'); 
-axis equal;
-grid;
-try
-    demcmap(curv);
-catch ME
-    colormap(str_colorMap);
-end
+[ vertices_spherical ] = addSphericalCoord( vertices );
+scatteplotsphere( vertices_spherical,curv ,'' );
+
+
+
+
+
+
+
+
+% %show
+% hf              = figure;
+% hp              = patch('vertices',             vertices,             ...
+%                         'faces',                faces(:,[1 3 2]),     ...
+%                         'facevertexcdata',      curv,                 ...
+%                         'edgecolor',            'none',                 ...
+%                         'facecolor',            'interp'); 
+% axis equal;
+% grid;
+% try
+%     demcmap(curv);
+% catch ME
+%     colormap(str_colorMap);
+% end
 

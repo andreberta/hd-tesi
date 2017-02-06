@@ -1,4 +1,4 @@
-function [S,ir,ic] = random_patches(img,psz,n,mask_black)
+function [S,ir,ic] = random_patches(img,psz,n,mask_black,unknownregion)
 % estraggo patch a caso dall'immagine, controllando che non siano troppo
 % nere usando mask_black
 
@@ -15,7 +15,7 @@ for i=1:n
         r = randi(imsz(1)-psz+1);
         c = randi(imsz(2)-psz+1);
         patch = mask_black(r:r+psz-1,c:c+psz-1);
-        control = nnz(patch) > psz^2/2;
+        control = nnz(patch) > psz^2/2 || unknownregion(r,c);
     end
     ir(i) = r;
     ic(i) = c;
