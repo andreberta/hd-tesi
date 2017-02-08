@@ -9,15 +9,15 @@ addpath('reference_based_detection_functions');
 plot_ = 0;
 
 %% load images 
-p1_v1_path = 'images_result/area/patient_2/visit_1/';
-p1_v3_path = 'images_result/area/patient_2/visit_3/';
+p1_v1_path = 'images_result/areamid/patient_1/visit_1/';
+p1_v3_path = 'images_result/areamid/patient_1/visit_3/';
 
-ref_lh = double(imread([p1_v1_path,'lh/5.png']));
-src_lh = double(imread([p1_v3_path,'lh/5.png']));
+ref_lh = double(imread([p1_v1_path,'lh/p_1v_1-lh-areamid-5.png']));
+src_lh = double(imread([p1_v3_path,'lh/p_1v_3-lh-areamid-5.png']));
 
 
-ref_rh = double(imread([p1_v1_path,'rh/5.png']));
-src_rh = double(imread([p1_v3_path,'rh/5.png']));
+ref_rh = double(imread([p1_v1_path,'rh/p_1v_1-rh-areamid-5.png']));
+src_rh = double(imread([p1_v3_path,'rh/p_1v_3-rh-areamid-5.png']));
 
 %% estimate noise
 
@@ -127,7 +127,7 @@ end
 %reconstructed source-original source
 if plot_
     figure,
-    imshow(abs(lh_fov_reconstruction -src_lh)/256,[0,0.5]);
+    imshow(abs(lh_fov_reconstruction -src_lh)/256);
     
     figure,
     imshow(abs(rh_fov_reconstruction -src_rh)/256);

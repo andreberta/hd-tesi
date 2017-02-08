@@ -1,9 +1,9 @@
 function print_pyramid_level( patient , visit_number , curv_type , hemi)
 %PRINT_PYRAMID_LEVEL Given a patient, a visit number,an hemisphere and a 
 %curvature value, prints out the whole pyramid
-%   Admissible value for curv_type are curv , thick , vol or area, in case
-%   of different values an error is shown. Same thing happens in case of
-%   wrong values for hemisphere
+%   Admissible value for curv_type are curv , thick , vol , area , area.pial
+%   curv.pial or area.mid, in case of different values an error is shown. 
+%   Same thing happens in case of wrong values for hemisphere
 
 if strcmp(hemi,'lh')
     visit = patient.visit{visit_number}.lh;
@@ -23,8 +23,17 @@ else if strcmp(curv_type,'thick')
             interpolated_value = visit.pyramid_vol.interpolated;
         else if strcmp(curv_type,'area')
                 interpolated_value = visit.pyramid_area.interpolated;
-            else
-                error('Curvature "%s" does not exist.', curv_type);
+            else if strcmp(curv_type,'area.pial')
+                    interpolated_value = visit.pyramid_areapial.interpolated;
+                else if strcmp(curv_type,'curv.pial')
+                        interpolated_value = visit.pyramid_curvpial.interpolated;
+                    else if strcmp(curv_type,'area.mid')
+                            interpolated_value = visit.pyramid_areamid.interpolated;
+                        else
+                            error('Curvature "%s" does not exist.', curv_type);
+                        end
+                    end
+                end
             end
         end
     end

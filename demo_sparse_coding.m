@@ -20,12 +20,11 @@ lambda = 0.1;
 ngrid = 2^8;
 
 %% load images 
-p1_v1_path = 'images_result/thickness/patient_1/visit_1/';
-p1_v3_path = 'images_result/thickness/patient_1/visit_2/';
+p1_v1_path = 'images_result/volume/patient_1/visit_1/';
+p1_v3_path = 'images_result/volume/patient_1/visit_3/';
 
-ref_lh = double(imread([p1_v1_path,'lh/5.png']));
-src_lh = double(imread([p1_v3_path,'lh/5.png']));
-disp('images loaded')
+ref_lh = double(imread([p1_v1_path,'lh/p_1v_1-lh-volume-5.png']));
+src_lh = double(imread([p1_v3_path,'lh/p_1v_3-lh-volume-5.png']));
 
 
 % ref_rh = double(imread([p1_v1_path,'bert_rh_curv_8.png']));
@@ -40,13 +39,15 @@ disp('Dictionary training...')
 mask_black = preprocess_image(ref_lh,psz);
 
 % calcolo la maschera dei pixels appartenenti alla regione unknown
-unknownregion = unknownregion_mask( patient1 , 1 );
+%unknownregion = region_mask( patient1 , 1 ,1);
 
 % estraggo patch random dall'immagine
 S = random_patches(ref_lh,psz,np_train,mask_black,zeros(size(ref_lh)));
 
 % tolgo la media da ogni patch
 S = bsxfun(@minus,S,mean(S,1));
+
+S = remove_zeronorm_patches(S);
 
 % apprendo il dizionario
 D0 = randn(psz^2,round(psz^2*1.5));
@@ -97,7 +98,7 @@ disp('Testing...')
 step = 4;
 
 % carico l'immagine di test
-% calcolo la maschera delle patch nere da escludere
+% calcolato la maschera delle patch nere da escludere
 mask_black = preprocess_image(src_lh,psz);
 
 data.img = src_lh;

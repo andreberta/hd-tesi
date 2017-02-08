@@ -16,7 +16,6 @@ F_aparc_curv = scatteredInterpolant(vertices(:,5),vertices(:,6),v_aparc_curv,'ne
 resolutions = [100 300 500 700 1000];
 [~,cols] = size(resolutions);
 interpolated_aparc = cell(cols,1);
-meshgrid_values = cell(cols,2);
 
 
 for ii=1:cols
@@ -29,14 +28,10 @@ for ii=1:cols
 %     h = surf(xq,yq,vq);
 %     set(h,'LineStyle','none')
     interpolated_aparc{ii} = vq_aparc_curv;
-    meshgrid_values{ii,1} = xq;
-    meshgrid_values{ii,2} = yq;
 end
 
 pyramid_aparc.F = F_aparc_curv;
-pyramid_aparc.resolutions = resolutions;
 pyramid_aparc.interpolated_aparc = interpolated_aparc;
-pyramid_aparc.meshgrid_values = meshgrid_values;
 
 
 
