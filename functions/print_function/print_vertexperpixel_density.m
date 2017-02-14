@@ -3,22 +3,29 @@ function  print_vertexperpixel_density( patient , visit_number , hemi )
 %   
 
 if strcmp(hemi,'lh')
-    visit = patient.visit{visit_number}.lh;
+    vertices = patient.visit{visit_number}.lh.vertices;
 else if strcmp(hemi,'rh')
-        visit = patient.visit{visit_number}.rh;
+        vertices = patient.visit{visit_number}.rh.vertices;
     else
         error('Hemisphere "%s" does not exist.', hemi);
     end
 end
 
-vertex_per_pix = visit.vertex_per_pix;
-resolutions = [100 300 500 700 1000];
+max_theta = pi;
+min_theta = 0;
+max_phi = pi;
+min_phi = -pi;
+dif_theta = max_theta - min_theta;
+dif_phi = max_phi - min_phi;
 
-for ii=1:length(vertex_per_pix)
-    figure,
-    %hist(vertex_per_pix{ii}); --> 1D version
-    x = [resolutions(ii),resolutions(ii)];
-    hist3(vertex_per_pix{ii},x);
+resolutions = [100 300 500 700 1000];
+[~,cols] = size(resolutions);
+
+for ii=1:cols
+    N = resolutions(ii);
+    x = min_theta:dif_theta/N:max_theta;
+    y = min_phi:dif_phi/N:max_phi;
+    figure,histogram2(vertices(:,5),vertices(:,6),x,y,'FaceColor','flat');
 end
 
 

@@ -24,10 +24,11 @@ step = data.step;
 lambda = data.lambda;
 D = data.D;
 kde_density = data.kde_density;
+opt = data.opt;
 
 S = im2colstep(img,[psz,psz],[step,step]);
 S = bsxfun(@minus,S,mean(S,1));
-X = bpdn(D,S,lambda);
+X = bpdn(D,S,lambda,opt);
 err = sqrt(sum((D*X-S).^2));
 l1 = sum(abs(X));
 

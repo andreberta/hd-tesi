@@ -19,13 +19,15 @@ lambda = 0.1;
 % numero di punti della griglia per kde
 ngrid = 2^8;
 
+%optional parameter for bpdndl and bpdnd
+opt.MaxMainIter = 10000;
+
 %% load images 
-p1_v1_path = 'images_result/volume/patient_1/visit_1/';
-p1_v3_path = 'images_result/volume/patient_1/visit_3/';
+p1_v1_path = 'images_result/thickness/patient_1/visit_1/';
+p1_v3_path = 'images_result/thickness/patient_1/visit_3/';
 
-ref_lh = double(imread([p1_v1_path,'lh/p_1v_1-lh-volume-5.png']));
-src_lh = double(imread([p1_v3_path,'lh/p_1v_3-lh-volume-5.png']));
-
+ref_lh = double(imread([p1_v1_path,'lh/p_1v_1-lh-thickness-5.png']));
+src_lh = double(imread([p1_v3_path,'lh/p_1v_3-lh-thickness-5.png']));
 
 % ref_rh = double(imread([p1_v1_path,'bert_rh_curv_8.png']));
 % src_rh = double(imread([p1_v1_path,'bert_rh_curv_8.png']));
@@ -47,12 +49,12 @@ S = random_patches(ref_lh,psz,np_train,mask_black,zeros(size(ref_lh)));
 % tolgo la media da ogni patch
 S = bsxfun(@minus,S,mean(S,1));
 
-S = remove_zeronorm_patches(S);
+%S = remove_zeronorm_patches(S);
 
 % apprendo il dizionario
 D0 = randn(psz^2,round(psz^2*1.5));
 tic;
-D = bpdndl(D0,S,lambda);
+D_10000= bpdndl(D0,S,lambda,opt);
 time_dictionary_learning = toc;
 disp('...DONE.')
 
@@ -61,18 +63,18 @@ disp('...DONE.')
 
 disp('Density estimation...')
 % estraggo patch random dall'immagine
-S_es = random_patches(ref_lh,psz,1.5*np_train,false(size(ref_lh)),zeros(size(ref_lh)));
+S_es = random_patches(ref_lh,psz,2*np_train,false(size(ref_lh)),zeros(size(ref_lh)));
 
 % tolgo la media da ogni patch
 S_es = bsxfun(@minus,S_es,mean(S_es,1));
 
 % sparse coding
 tic;
-X = bpdn(D,S_es,lambda);
+X = bpdn(D_10000,S_es,lambda,opt);
 time_estimation = toc;
 
 % calcolo degli indicatori
-err = sqrt(sum((D*X-S_es).^2,1));
+err = sqrt(sum((D_10000*X-S_es).^2,1));
 l1 = sum(abs(X),1);
 
 indicators = [err',l1'];
@@ -107,6 +109,7 @@ data.step = step;
 data.lambda = lambda;
 data.D = D;
 data.kde_density = kde_density;
+data.opt = opt;
 
 
 % sparse coding e calcolo dei valori della likelihood
@@ -116,7 +119,8 @@ stat = sparse_coding(data);
 mask = compute_mask(stat,threshold,mask_black,psz);
 
 % genero un'immagine segnando rossi i pixel anomali
-[img_over] = overlap_mask(src_lh/256,mask);
+[img_over_v1_v3_10000] = overlap_mask(src_lh/256,mask);
 
-imagesc(img_over);
+figure,
+imagesc(img_over_v1_v3);
 disp('...DONE.')

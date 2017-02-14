@@ -34,16 +34,16 @@ for ii=1:visit_number
     
     %curv
     disp('  Loading curvature: curv')
-    [lh_curv, ~] = load_curvature_file(visit_path,8,'lh');
-    [rh_curv, ~] = load_curvature_file(visit_path,8,'rh');
+    [lh_curv, ~] = load_curvature_file(visit_path,8,'lh',0);
+    [rh_curv, ~] = load_curvature_file(visit_path,8,'rh',0);
     disp('  Interpolating curvature: curv')
     visit.lh.pyramid_curv = surf_to_pyramid(visit.lh.vertices,lh_curv);
     visit.rh.pyramid_curv = surf_to_pyramid(visit.rh.vertices,rh_curv);    
         
     %thick    
     disp('  Loading curvature: thickness')
-    [lh_thick, ~] = load_curvature_file(visit_path,3,'lh');
-    [rh_thick, ~] = load_curvature_file(visit_path,3,'rh');
+    [lh_thick, ~] = load_curvature_file(visit_path,3,'lh',0);
+    [rh_thick, ~] = load_curvature_file(visit_path,3,'rh',0);
     disp('  Interpolating curvature: thickness')
     visit.lh.pyramid_thick = surf_to_pyramid(visit.lh.vertices,lh_thick);     
     visit.rh.pyramid_thick = surf_to_pyramid(visit.rh.vertices,rh_thick);
@@ -51,40 +51,40 @@ for ii=1:visit_number
     
     %vol    
     disp('  Loading curvature: volume')
-    [lh_vol, ~] = load_curvature_file(visit_path,5,'lh');    
-    [rh_vol, ~] = load_curvature_file(visit_path,5,'rh');
+    [lh_vol, ~] = load_curvature_file(visit_path,5,'lh',0);    
+    [rh_vol, ~] = load_curvature_file(visit_path,5,'rh',0);
     disp('  Interpolating curvature: volume')
     visit.lh.pyramid_vol = surf_to_pyramid(visit.lh.vertices,lh_vol);
     visit.rh.pyramid_vol = surf_to_pyramid(visit.rh.vertices,rh_vol);
     
     %area
     disp('  Load curvature: area')
-    [lh_area, ~] = load_curvature_file(visit_path,1,'lh');    
-    [rh_area, ~] = load_curvature_file(visit_path,1,'rh');
+    [lh_area, ~] = load_curvature_file(visit_path,1,'lh',0);    
+    [rh_area, ~] = load_curvature_file(visit_path,1,'rh',0);
     disp('  Interpolating curvature: area')
     visit.lh.pyramid_area = surf_to_pyramid(visit.lh.vertices,lh_area);
     visit.rh.pyramid_area = surf_to_pyramid(visit.rh.vertices,rh_area);
    
     %area.pial
     disp('  Load curvature: area.pial')
-    [lh_areapial, ~] = load_curvature_file(visit_path,4,'lh');    
-    [rh_areapial, ~] = load_curvature_file(visit_path,4,'rh');
+    [lh_areapial, ~] = load_curvature_file(visit_path,4,'lh',0);    
+    [rh_areapial, ~] = load_curvature_file(visit_path,4,'rh',0);
     disp('  Interpolating curvature: area.pial')
     visit.lh.pyramid_areapial = surf_to_pyramid(visit.lh.vertices,lh_areapial);
     visit.rh.pyramid_areapial = surf_to_pyramid(visit.rh.vertices,rh_areapial);
     
     %curv.pial
     disp('  Load curvature: curv.pial')
-    [lh_curvpial, ~] = load_curvature_file(visit_path,10,'lh');    
-    [rh_curvpial, ~] = load_curvature_file(visit_path,10,'rh');
+    [lh_curvpial, ~] = load_curvature_file(visit_path,10,'lh',0);    
+    [rh_curvpial, ~] = load_curvature_file(visit_path,10,'rh',0);
     disp('  Interpolating curvature: curv.pial')
     visit.lh.pyramid_curvpial = surf_to_pyramid(visit.lh.vertices,lh_curvpial);
     visit.rh.pyramid_curvpial = surf_to_pyramid(visit.rh.vertices,rh_curvpial);
     
     %area.mid
     disp('  Load curvature: area.mid')
-    [lh_areamid, ~] = load_curvature_file(visit_path,24,'lh');    
-    [rh_areamid, ~] = load_curvature_file(visit_path,24,'rh');
+    [lh_areamid, ~] = load_curvature_file(visit_path,24,'lh',0);    
+    [rh_areamid, ~] = load_curvature_file(visit_path,24,'rh',0);
     disp('  Interpolating curvature: area.mid')
     visit.lh.pyramid_areamid = surf_to_pyramid(visit.lh.vertices,lh_areamid);
     visit.rh.pyramid_areamid = surf_to_pyramid(visit.rh.vertices,rh_areamid);
