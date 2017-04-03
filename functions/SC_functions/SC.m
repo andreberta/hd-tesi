@@ -9,7 +9,7 @@ function [ patient ] = SC(patient,level,opt)
 %OPT-INPUT :
 %           -psz : patch size [default 31]
 %           -lambda : tuning parameter for the sparse coding problem
-%           [default 0.1]
+%           [default 0.05]
 %           -step : the number of pixel to skip during the test
 %           phase[default 1]
 %           -FPR_target : target to use during the density estimation

@@ -1,12 +1,12 @@
 %% general 
-addpath(genpath('/functions'));
+addpath(genpath('functions'));
 
 patients_id = [1 , 2 , 3];
 visit_per_patient = [3 , 3 , 4];
 
 curv_type = 'thickness';
 resolutions = 1000;
-level = length(resolution);
+level = length(resolutions);
 fwhm = 0;
 
 w_dim = 8;
