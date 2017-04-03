@@ -162,7 +162,7 @@ function [opt] = check_opt(opt)
        opt.psz = 31;
    end
    if ~isfield(opt,'lambda')
-       opt.lambda = 0.1;
+       opt.lambda = 0.05;
    end
    if ~isfield(opt,'step')
        opt.step = 1;
