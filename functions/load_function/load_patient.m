@@ -1,149 +1,90 @@
-function [ patient ] = load_patient( patient_id , visit_number , plot_)
-%LOAD_PATIENT Load all the information for a patient given the patient id
-%and the number of his visits, return a struct containing all the
-%information for every visit and save the results as images
-%   Surface:    -?h.sphere.reg
+function [ patient ] = load_patient( patient_id , visit_number , data_path, ...
+                                    curv_type, fwhm , resolutions , opt )
+%LOAD_PATIENT For all the visit of a patient, load the cortical surfaces
+%information, extract an image from them and store it
 %
-%   Curvature:  -?h.curv
-%               -?h.thickness
-%               -?h.volume
-%               -?h.area
-%               -?h.area.pial
-%               -?h.area.mid
-%               -?h.curv.pial
 %
-%   Annotation: -?h.aparc
+%   Load sphere.reg surface, transform it from XYZ coordinates to polar
+%   coordinates, the results is a 2D surface. Add curvature information to
+%   that surface, the result is interpolated at different resolutions to
+%   obtain a pyramid.
+% INPUT:
+%       -patient_id
+%       -visit number
+%       -data_path : function handle, for a function that receive
+%        patient_id ,the visit number and return the folder in which the data
+%        stored
+%       -curv_type : type of curvature you want to load (thickness, area , area.mid , ...)
+%       -resolutions: value at which the surfaces are interpolated
+%       - save_path -> function handle, specify in which folder save the
+%         results, as data_path in input needs patient_id and visit_number
+%       -opt : - vertex_per_pixel_ -> 1 if has to compute vertex per
+%                pixel
+% OUTPUT:
+%       -patient: a struct containing all the info loaded in the process
+
 %% load patient data
 
+if nargin == 6
+    opt.vertex_per_pixel_ = 0;
+else if nargin > 7
+        error('Invalid number of input parameter.');
+    end
+end
+
+opt = check_opt(opt);
+
 patient.id = patient_id;
+patient.curv_type = curv_type;
 patient.visit = cell(1,visit_number);
 
 disp('Start loading patient data...')
 
+%load surf
+fsaverage_path = 'data/fsaverage/'; 
+[vertices_lh,~] = load_surface_file(fsaverage_path,10,'lh');
+[vertices_rh,~] = load_surface_file(fsaverage_path,10,'rh');
 
 for ii=1:visit_number
     
     disp([' Visit number ',num2str(ii)]);
-    
-    visit_path = path_local(patient_id,ii);
-    
-    %load surf    
-    disp('  Loading surfaces')
-    [visit.lh.vertices,~] = load_surface_file(visit_path,10,'lh');
-    [visit.rh.vertices,~] = load_surface_file(visit_path,10,'rh');
-    
-    %curv
-    disp('  Loading curvature: curv')
-    [lh_curv, ~] = load_curvature_file(visit_path,8,'lh',0);
-    [rh_curv, ~] = load_curvature_file(visit_path,8,'rh',0);
-    disp('  Interpolating curvature: curv')
-    visit.lh.pyramid_curv = surf_to_pyramid(visit.lh.vertices,lh_curv);
-    visit.rh.pyramid_curv = surf_to_pyramid(visit.rh.vertices,rh_curv);    
-        
-    %thick    
-    disp('  Loading curvature: thickness')
-    [lh_thick, ~] = load_curvature_file(visit_path,3,'lh',0);
-    [rh_thick, ~] = load_curvature_file(visit_path,3,'rh',0);
-    disp('  Interpolating curvature: thickness')
-    visit.lh.pyramid_thick = surf_to_pyramid(visit.lh.vertices,lh_thick);     
-    visit.rh.pyramid_thick = surf_to_pyramid(visit.rh.vertices,rh_thick);
-    
-    
-    %vol    
-    disp('  Loading curvature: volume')
-    [lh_vol, ~] = load_curvature_file(visit_path,5,'lh',0);    
-    [rh_vol, ~] = load_curvature_file(visit_path,5,'rh',0);
-    disp('  Interpolating curvature: volume')
-    visit.lh.pyramid_vol = surf_to_pyramid(visit.lh.vertices,lh_vol);
-    visit.rh.pyramid_vol = surf_to_pyramid(visit.rh.vertices,rh_vol);
-    
-    %area
-    disp('  Load curvature: area')
-    [lh_area, ~] = load_curvature_file(visit_path,1,'lh',0);    
-    [rh_area, ~] = load_curvature_file(visit_path,1,'rh',0);
-    disp('  Interpolating curvature: area')
-    visit.lh.pyramid_area = surf_to_pyramid(visit.lh.vertices,lh_area);
-    visit.rh.pyramid_area = surf_to_pyramid(visit.rh.vertices,rh_area);
-   
-    %area.pial
-    disp('  Load curvature: area.pial')
-    [lh_areapial, ~] = load_curvature_file(visit_path,4,'lh',0);    
-    [rh_areapial, ~] = load_curvature_file(visit_path,4,'rh',0);
-    disp('  Interpolating curvature: area.pial')
-    visit.lh.pyramid_areapial = surf_to_pyramid(visit.lh.vertices,lh_areapial);
-    visit.rh.pyramid_areapial = surf_to_pyramid(visit.rh.vertices,rh_areapial);
-    
-    %curv.pial
-    disp('  Load curvature: curv.pial')
-    [lh_curvpial, ~] = load_curvature_file(visit_path,10,'lh',0);    
-    [rh_curvpial, ~] = load_curvature_file(visit_path,10,'rh',0);
-    disp('  Interpolating curvature: curv.pial')
-    visit.lh.pyramid_curvpial = surf_to_pyramid(visit.lh.vertices,lh_curvpial);
-    visit.rh.pyramid_curvpial = surf_to_pyramid(visit.rh.vertices,rh_curvpial);
-    
-    %area.mid
-    disp('  Load curvature: area.mid')
-    [lh_areamid, ~] = load_curvature_file(visit_path,24,'lh',0);    
-    [rh_areamid, ~] = load_curvature_file(visit_path,24,'rh',0);
-    disp('  Interpolating curvature: area.mid')
-    visit.lh.pyramid_areamid = surf_to_pyramid(visit.lh.vertices,lh_areamid);
-    visit.rh.pyramid_areamid = surf_to_pyramid(visit.rh.vertices,rh_areamid);
+    visit_path = data_path(patient_id,ii);
 
+    %load mgh file as a curv file
+    [lh_curv] = load_mgh_file(visit_path,curv_type,'lh',fwhm,0);
+    [rh_curv] = load_mgh_file(visit_path,curv_type,'lh',fwhm,0);
     
-    %load annotation 
-    disp('  Loading annotaions')
-    [lh_aparc,~,~] = load_annotation_file(visit_path,5,'lh');
-    [rh_aparc,~,~] = load_annotation_file(visit_path,5,'rh');
-    disp('  Interpolating aparc')
-    visit.lh.pyramid_aparc = surf_to_pyramid_aparc(visit.lh.vertices,lh_aparc);
-    visit.rh.pyramid_aparc = surf_to_pyramid_aparc(visit.rh.vertices,rh_aparc);
-    
+    %interpolate data
+    visit.lh.pyramid_curv = surf_to_pyramid(vertices_lh,lh_curv,resolutions);
+    visit.rh.pyramid_curv = surf_to_pyramid(vertices_rh,rh_curv,resolutions);
+
     %vertex per pixel computation
-    disp('  Vertex per pixel density')
-    visit.lh.vertex_per_pix = histcount_surface_density(visit.lh.vertices);
-    visit.rh.vertex_per_pix = histcount_surface_density(visit.rh.vertices);
-    
+    if opt.vertex_per_pixel_
+        visit.lh.vertex_per_pix = histcount_surface_density(visit.lh.vertices);
+        visit.rh.vertex_per_pix = histcount_surface_density(visit.rh.vertices);
+    end
     
     patient.visit{ii} = visit;
-    
 end
 
 
-%% print
-
-if plot_
-    disp('Saving interpolated result as images...')
-    for ii=1:visit_number
-        
-        disp(['Visit number ',num2str(ii)]);
-        
-        visit = patient.visit{ii};
-        
-        %surf
-        pyramid_to_png_create_folder(visit.lh.pyramid_curv,patient_id,ii,'curvature','lh');
-        pyramid_to_png_create_folder(visit.rh.pyramid_curv,patient_id,ii,'curvature','rh');
-        %thick
-        pyramid_to_png_create_folder(visit.lh.pyramid_thick,patient_id,ii,'thickness','lh');
-        pyramid_to_png_create_folder(visit.rh.pyramid_thick,patient_id,ii,'thickness','rh');
-        %vol
-        pyramid_to_png_create_folder(visit.lh.pyramid_vol,patient_id,ii,'volume','lh');
-        pyramid_to_png_create_folder(visit.rh.pyramid_vol,patient_id,ii,'volume','rh');
-        %area
-        pyramid_to_png_create_folder(visit.lh.pyramid_area,patient_id,ii,'area','lh');
-        pyramid_to_png_create_folder(visit.rh.pyramid_area,patient_id,ii,'area','rh');
-        %area.pial
-        pyramid_to_png_create_folder(visit.lh.pyramid_areapial,patient_id,ii,'areapial','lh');
-        pyramid_to_png_create_folder(visit.rh.pyramid_areapial,patient_id,ii,'areapial','rh');
-        %curv.pial
-        pyramid_to_png_create_folder(visit.lh.pyramid_curv,patient_id,ii,'curvpial','lh');
-        pyramid_to_png_create_folder(visit.rh.pyramid_curvpial,patient_id,ii,'curvpial','rh');
-        %area_mid
-        pyramid_to_png_create_folder(visit.lh.pyramid_areamid,patient_id,ii,'areamid','lh');
-        pyramid_to_png_create_folder(visit.rh.pyramid_areamid,patient_id,ii,'areamid','rh');
-    end
 end
-disp('DONE.')
 
+
+
+%% functions
+
+
+function opt = check_opt(opt)
+if ~isfield(opt,'vertex_per_pixel_')
+    opt.vertex_per_pixel_ = 0;
+end
 
 end
+
+
+
+
+
+
 

@@ -1,4 +1,4 @@
-function [ pyramid_aparc] = surf_to_pyramid_aparc( vertices , v_aparc_curv )
+function [ pyramid_aparc] = surf_to_pyramid_aparc( vertices , v_aparc_curv ,resolutions)
 %SURF_TO_PYRAMID 
 %   
 
@@ -13,7 +13,6 @@ dif_phi = max_phi - min_phi;
 
 F_aparc_curv = scatteredInterpolant(vertices(:,5),vertices(:,6),v_aparc_curv,'nearest');
 
-resolutions = [100 300 500 700 1000];
 [~,cols] = size(resolutions);
 interpolated_aparc = cell(cols,1);
 
@@ -30,7 +29,7 @@ for ii=1:cols
     interpolated_aparc{ii} = vq_aparc_curv;
 end
 
-pyramid_aparc.F = F_aparc_curv;
+% pyramid_aparc.F = F_aparc_curv;
 pyramid_aparc.interpolated_aparc = interpolated_aparc;
 
 
