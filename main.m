@@ -6,7 +6,7 @@ visit_per_patient = [3 , 3 , 4];
 
 curv_type = 'thickness';
 resolutions = 1000;
-level = length(resolution);
+level = length(resolutions);
 fwhm = 0;
 
 %w_dim = 8;
@@ -24,7 +24,7 @@ for ii =2;%:length(patients_id) %skip patient 1
     
     patient = load_patient(id,visit_number,data_path_fun,curv_type,fwhm,resolutions); 
     
-   % patient = SC(patient,level);  
+   % patient = SC(patient,resolutions,level);  
     
     %save_patient(patient,save_path_fun);
 

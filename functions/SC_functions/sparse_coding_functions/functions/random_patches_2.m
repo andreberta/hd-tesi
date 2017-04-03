@@ -1,4 +1,4 @@
-function [ S,pix ] = random_patches_2( img,psz,n,mask,exclude)
+function [ S,pix ] = random_patches_2( img,psz,n,mask)
 %RANDOM_PATCH_2
 
 
@@ -6,11 +6,6 @@ if (~exist('mask','var') || isempty(mask))
     mask = false(size(img));
 end
 
-if(exist('exlude','var'))
-    for ii=1:size(exclude,1)
-        mask(exclude(ii,1),exlude(ii,2)) = 1; 
-    end
-end
 
 
 S = zeros(psz^2,n);

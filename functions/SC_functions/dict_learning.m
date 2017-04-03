@@ -12,8 +12,11 @@ for ii=1:length(thinning_region)
     if np_train == 0
         continue;
     end
+
     mask = parc ~= pos;
     [S,~] = random_patches_2(img,psz,np_train,mask);
+    mean_S = mean(S,1);
+    S = S(:,mean_S > 0);
     S = bsxfun(@minus,S,mean(S,1));
     D0 = randn(psz^2,round(psz^2*dict_dim_mult));    
     D= bpdndl(D0,S,lambda);

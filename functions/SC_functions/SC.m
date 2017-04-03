@@ -1,4 +1,4 @@
-function [ patient ] = SC(patient,level,opt)
+function [ patient ] = SC(patient,resolutions,opt)
 %SPARSE_CODING_P Find the sparse representation for a patient, learn
 %dictionary and kde density from the first visit, then apply it to all the
 %next visits. Left and right hemisphere are considered separated
@@ -31,9 +31,9 @@ function [ patient ] = SC(patient,level,opt)
 
 
 %% check opt
-if nargin == 4
+if nargin == 3
   opt = [];
-else if nargin > 5
+else if nargin > 4
         error('Invalid number of input parameter');
     end
 end
@@ -68,6 +68,7 @@ dpr_lh = cell(3,length(thin_r_lh));
 dpr_rh = cell(3,length(thin_r_rh));
 
 %% load data
+level = length(resolutions);
 %images
 v1_lh = patient.visit{1}.lh.pyramid_curv.interpolated{level};
 v1_rh = patient.visit{1}.rh.pyramid_curv.interpolated{level};
@@ -86,8 +87,8 @@ par_lh = pyramid_aparc_lh.interpolated_aparc{level};
 par_rh = pyramid_aparc_rh.interpolated_aparc{level};
 %% number of patches
 
-[patch_count_lh] = patch_count(v1_par_lh,psz);
-[patch_count_rh] = patch_count(v1_par_rh,psz);
+[patch_count_lh] = patch_count(par_lh,psz);
+[patch_count_rh] = patch_count(par_rh,psz);
 %% Dictionary learning
 
 %left
@@ -195,8 +196,8 @@ end
 if opt.FPR_target <= 0
     error('FPR target should be positive.');
 end
-if opt.dict_dim_mult < 1
-    error('Multiplicaton factor for dictionary dimension should be at least 1.');
+if opt.dict_dim_mult < 0
+    error('Multiplicaton factor for dictionary dimension should be at least 0.');
 end
     
     
