@@ -1,8 +1,8 @@
 %% general 
-addpath(genpath('/functions'));
+addpath(genpath('functions'));
 
 patients_id = [1 , 2 , 3];
-visit_per_patient = [3 , 3 , 4];
+visit_per_patient = [1 , 3 , 4];
 
 curv_type = 'thickness';
 resolutions = 1000;
@@ -16,7 +16,7 @@ data_path_fun = @path_local;
 save_path_fun = @save_path;
 
 
-for ii =2;%:length(patients_id) %skip patient 1
+for ii =3%:length(patients_id) %skip patient 1
     
     id = patients_id(ii);
     visit_number = visit_per_patient(ii);

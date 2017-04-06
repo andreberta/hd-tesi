@@ -87,14 +87,14 @@ par_lh = pyramid_aparc_lh.interpolated_aparc{level};
 par_rh = pyramid_aparc_rh.interpolated_aparc{level};
 %% number of patches
 
-[patch_count_lh] = patch_count(par_lh,psz);
+% [patch_count_lh] = patch_count(par_lh,psz);
 [patch_count_rh] = patch_count(par_rh,psz);
 %% Dictionary learning
 
-%left
-disp('Dictionary learning left hemi')
-dpr_lh = dict_learning(thin_r_lh,patch_count_lh,v1_lh,psz,par_lh,...
-                       dpr_lh,lambda,dict_dim_mult);
+% %left
+% disp('Dictionary learning left hemi')
+% dpr_lh = dict_learning(thin_r_lh,patch_count_lh,v1_lh,psz,par_lh,...
+%                        dpr_lh,lambda,dict_dim_mult);
 %right
 disp('Dictionary learning right hemi')                                        
 dpr_rh = dict_learning(thin_r_rh,patch_count_rh,v1_rh,psz,par_rh,...
@@ -106,48 +106,47 @@ dpr_rh = dict_learning(thin_r_rh,patch_count_rh,v1_rh,psz,par_rh,...
 
 %% density estimation
 
-%left
-disp('Densisty estimation left hemi')
-[dpr_lh] = density_estimation(dpr_lh,thin_r_lh,patch_count_lh,par_lh,...
-                              FPR_target,v1_lh,psz,ngrid,lambda);
+% %left
+% disp('Densisty estimation left hemi')
+% [dpr_lh] = density_estimation(dpr_lh,thin_r_lh,patch_count_lh,par_lh,...
+%                               FPR_target,v1_lh,psz,ngrid,lambda);
 
 
 
-%right
-disp('Densisty estimation right hemi')
-[dpr_rh] = density_estimation(dpr_rh,thin_r_rh,patch_count_rh,par_rh,...
-                              FPR_target,v1_rh,psz,ngrid,lambda);
+% %right
+% disp('Densisty estimation right hemi')
+% [dpr_rh] = density_estimation(dpr_rh,thin_r_rh,patch_count_rh,par_rh,...
+%                               FPR_target,v1_rh,psz,ngrid,lambda);
                           
-
+%con transversetemporal ci sono dei NaN or inf
+%% save Dictionary, kde_density and threshold in patient struct                         
+% patient.sc_data.lh = dpr_lh;
+patient.sc_data.rh = dpr_rh;
 
 
 %% Coding test images
+% for ii=2:visits_number
+%     visit_lh = patient.visit{ii}.lh;
+%     visit_rh = patient.visit{ii}.rh;
+%     
+%     %img  
+%     lh = visit_lh.pyramid_curv.interpolated{level};
+%     rh = visit_rh.pyramid_curv.interpolated{level};  
+%     
+%     [res_lh,stat_lh] = test_image(dpr_lh,thin_r_lh,par_lh,lh,psz,data);
+%     
+%     [res_rh,stat_rh] = test_image(dpr_rh,thin_r_rh,par_rh,rh,psz,data);
+%     
+%     visit_lh.stat = stat_lh;
+%     visit_rh.stat = stat_rh;
+%     
+%     visit_lh.X = res_lh;
+%     visit_rh.X = res_rh;
+%     
+%     patient.visit{ii}.lh = visit_lh;
+%     patient.visit{ii}.rh = visit_rh;
+% end
 
-for ii=2:visits_number
-    visit_lh = patient.visit{ii}.lh;
-    visit_rh = patient.visit{ii}.rh;
-    
-    %img  
-    lh = visit_lh.pyramid_thick.interpolated{level};
-    rh = visit_rh.pyramid_thick.interpolated{level};  
-    
-    [res_lh,stat_lh] = test_image(dpr_lh,thin_r_lh,par_lh,lh,psz,data);
-    
-    [res_rh,stat_rh] = test_image(dpr_rh,thin_r_rh,par_rh,rh,psz,data);
-    
-    visit_lh.stat = stat_lh;
-    visit_rh.stat = stat_rh;
-    
-    visit_lh.X = res_lh;
-    visit_rh.X = res_rh;
-    
-    patient.visit{ii}.lh = visit_lh;
-    patient.visit{ii}.rh = visit_rh;
-end
-
-%% save Dictionary, kde_density and threshold in patient struct                         
-patient.sc_data.lh = dpr_lh;
-patient.sc_data.rh = dpr_rh;
 
 end
 

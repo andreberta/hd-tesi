@@ -52,7 +52,7 @@ for ii=1:visit_number
 
     %load mgh file as a curv file
     [lh_curv] = load_mgh_file(visit_path,curv_type,'lh',fwhm,0);
-    [rh_curv] = load_mgh_file(visit_path,curv_type,'lh',fwhm,0);
+    [rh_curv] = load_mgh_file(visit_path,curv_type,'rh',fwhm,0);
     
     %interpolate data
     visit.lh.pyramid_curv = surf_to_pyramid(vertices_lh,lh_curv,resolutions);

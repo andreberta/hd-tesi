@@ -7,7 +7,7 @@ for ii=1:length(thinning_region)
     
     pos = parc2pos(thinning_region{ii});
     np_train = uint64(patch_count(pos));
-    if np_train == 0
+    if np_train == 0 || isempty(D)
         continue;
     end
     
