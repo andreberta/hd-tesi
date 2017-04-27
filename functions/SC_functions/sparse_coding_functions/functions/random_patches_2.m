@@ -1,12 +1,5 @@
-function [ S,pix ] = random_patches_2( img,psz,n,mask)
+function [ S,pix ] = random_patches_2(img,psz,n,mask)
 %RANDOM_PATCH_2
-
-
-if (~exist('mask','var') || isempty(mask))
-    mask = false(size(img));
-end
-
-
 
 S = zeros(psz^2,n);
 pix = zeros(n,2);

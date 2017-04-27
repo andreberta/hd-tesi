@@ -21,12 +21,12 @@ for ii=1:length(thinning_region)
     l1 = sum(abs(X),1);
     indicators = [err',l1'];
     % uso metà degli indicatori per la stima della densità
-    [~,density,xx,yy]  = kde2d(indicators(1:end/2,:),ngrid);
+    [~,density,xx,yy]  = kde2d(indicators(uint64(1:end/2),:),ngrid);
     kde_density.density = density;
     kde_density.X = xx;
     kde_density.Y = yy;
     % uso la seconda metà degli indicatori per la stima del threshold
-    v = loglikelihood_kde(kde_density,indicators(end/2+1:end,:));
+    v = loglikelihood_kde(kde_density,indicators(uint64(end/2+1:end),:));
     threshold = quantile(v,1-FPR_target);
 
     dpr{2,ii} = kde_density;

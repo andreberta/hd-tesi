@@ -34,6 +34,7 @@ end
 
 %% Loop through all the lines
 nthrow = 1;
+res = [];
 while(1)
     
     % scroll through any blank lines or comments (#)
@@ -54,7 +55,9 @@ while(1)
         res(nthrow) = stats{6};
     else if aparc
             [stats] = readline_aparc(tline);
-            res(nthrow,:) = [stats{3},stats{4},stats{5}];
+            res.names{nthrow} = stats{1};
+            res.vals(nthrow,:) =[stats{3},stats{4}...
+                                ,stats{5},stats{6},stats{7}];
         end
     end
  

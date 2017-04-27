@@ -1,8 +1,7 @@
 function [v_curv] = load_mgh_file(path,curv_type,hemi,fwhm,raw)
-%LOAD_MGH_FILE 
+%LOAD_MGH_FILE read from an mgh file and return the information in it as
+% a curvature
 
-%example lh.curv_type.fwhm.fsaverage.mgh
-%fwhm = 0,5,10,15,20,25
 
 fwhm = num2str(fwhm);
 

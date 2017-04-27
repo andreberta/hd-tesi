@@ -1,7 +1,7 @@
 function [ pyramid ] = surf_to_pyramid( vertices , v_curv , resolutions )
 %SURF_TO_PYRAMID Interpolate the surface at different resolution
-%   Receive as input the sphere expressed in spherical coordinate(2D) the
-%   third dimension is a curvature value. Interpolate this new surface at
+%   Receive as input the sphere expressed in spherical coordinate(see addsphericalcoord.m)
+%   the third dimension is a curvature value. Interpolate this new surface at
 %   different resolution using scattered interpolant, the result is a
 %   pyramid of images at different resolutions
 

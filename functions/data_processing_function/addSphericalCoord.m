@@ -1,5 +1,6 @@
 function [ vertices_spherical ] = addSphericalCoord( vertices )
-%Return the vertex list with spherical coordinates
+%ADDSPHERICALCOORD Given a set of vertices in xyz coordinates of a sphere, 
+% return their spherical coordinates
 
 [rows,col] = size(vertices);
 vertices_spherical = zeros(rows, col*2);

@@ -1,15 +1,15 @@
-function [ res , whole_stat ] = test_image( dpr , thinning_region , parc , img , psz , data)
+function [ res , whole_stat ] = test_image_mix( dpr , regions , parc , img , psz , data)
 %TEST_IMAGE
 
-res = cell(1,length(thinning_region));
+res = cell(1,length(regions));
 up_ = round(psz/2);
 down_ = up_ - 1;
 whole_stat = 0;
-for ii=1:length(thinning_region)
-    disp(thinning_region{ii});
+for ii=1:length(regions)
+    disp(regions{ii});
     
-    if ~isempty(dpr{1,ii})
-        pos = parc2pos(thinning_region{ii});
+    if ~isempty(dpr{1,ii}) && ~strcmp(regions{ii},'UNKNOWN')
+        pos = parc2pos(regions{ii});
         mask = parc == pos;
         se = strel('square',2*psz);
         mask_dilated = imdilate(mask,se);

@@ -2,9 +2,9 @@
 addpath(genpath('functions'));
 
 patients_id = [1 , 2 , 3];
-visit_per_patient = [1 , 3 , 4];
+visit_per_patient = [7 , 3 , 4];
 
-curv_type = 'thickness';
+curv_type = 'curv';
 resolutions = 1000;
 level = length(resolutions);
 fwhm = 0;
@@ -16,7 +16,7 @@ data_path_fun = @path_local;
 save_path_fun = @save_path;
 
 
-for ii =3%:length(patients_id) %skip patient 1
+for ii =1%:length(patients_id) %skip patient 1
     
     id = patients_id(ii);
     visit_number = visit_per_patient(ii);
@@ -24,7 +24,7 @@ for ii =3%:length(patients_id) %skip patient 1
     
     patient = load_patient(id,visit_number,data_path_fun,curv_type,fwhm,resolutions); 
     
-   % patient = SC(patient,resolutions,level);  
+   % patient = SC(patient,resolutions);  
     
     %save_patient(patient,save_path_fun);
 

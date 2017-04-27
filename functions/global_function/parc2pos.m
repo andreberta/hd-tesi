@@ -1,6 +1,6 @@
 function [ res ] = parc2pos( parc )
-%PARC2POS Given a region name return the position of its RGB value
-
+%PARC2POS Given a region name return its position, corresponding to 
+% to the RGB value order
 
 rgb_level = RGB_label_value_parc();
 parc_value = parc_region_value();

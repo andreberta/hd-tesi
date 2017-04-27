@@ -1,11 +1,13 @@
 function [ v_curv_parc_region , vertex_per_parc_region , colortable ] = ...
                                 load_annotation_file( path , annot , hemi )
-%LOAD_ANNOTATION_FILE Given the path of the subject, the file name and the
-%hemisphere return data conatained in that file
-%  Load the data frm the annotion file, in label_annot(ii) there is the RGB
-%  code for vertex ii. The idea is to create a curvature vector as the ones
-%  created by freesurfer, v_curv_parc_region, in v_curv_parc_region(ii)
-%  there is a value identifying the region of vertex ii
+%LOAD_ANNOTATION_FILE Load an annotation file and return all the info.
+%
+% OUTPUT : 	- v_curv_parc_region : treat the parcellation value as a curvature file,
+%        	- vertex_per_parc_region : a cell array, with a cell for each region,
+%		  each cell contain a logical array to select vertices for that region
+%		  e.g.  paracentral_vert = vertex_per_parc_region{parc2pos('paracentral')}.
+%		- colortable : a struct contating information about the values contatined in
+%		  the annotation file
 
 annot_file = annotaion_value();
 

@@ -23,13 +23,10 @@ for ii=1:cols
     y = min_phi:dif_phi/N:max_phi;
     [xq , yq] = meshgrid(x,y);
     vq_aparc_curv = F_aparc_curv(xq,yq);
-%     figure;
-%     h = surf(xq,yq,vq);
-%     set(h,'LineStyle','none')
     interpolated_aparc{ii} = vq_aparc_curv;
 end
 
-% pyramid_aparc.F = F_aparc_curv;
+
 pyramid_aparc.interpolated_aparc = interpolated_aparc;
 
 

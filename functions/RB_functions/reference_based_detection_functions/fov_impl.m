@@ -1,4 +1,4 @@
-function [y_hat,patch_hat]=fov_impl(ref,src,search_radius,U_radius,sigma,disableFov)
+function [y_hat,patch_hat]=fov_impl(ref,src,search_radius,U_radius,sigma,disableFov,patch_wise)
 %
 %  Foveated Nonlocal Means denoising algorithm (ver 1.12, Feb. 16, 2012)
 %  Author:  Alessandro Foi, Tampere University of Technology, Finland
@@ -169,4 +169,11 @@ for x1=1:size_z_1
     end
 end
 
-[ patch_hat ] = patch_wise_difference( src , y_hat , U_radius);
+if patch_wise
+    [ patch_hat ] = patch_wise_difference( src , y_hat , U_radius);
+else
+    patch_hat = 0;
+end
+
+
+end

@@ -1,4 +1,5 @@
 function [l] = load_label(path)
+%LOAD_LABEL read a label file and return the information in it
 
 l = [];
 % open it as an ascii file

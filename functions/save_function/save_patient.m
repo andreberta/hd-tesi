@@ -1,21 +1,27 @@
-function save_patient(patient,save_path_fun)
+
+function save_patient(patient,save_path_fun,psz,par_lh,par_rh)
+%SAVE Save the patient struct into a folder specified by save_path_patient.
+
+
 %% get info
 id = patient.id;
 curv_type = patient.curv_type;
-visit_number = length(patient.visit);
 path_patient = save_path_fun(id,curv_type);
 
-%% save global info
-
+%% save
 mkdir(path_patient)
-save([path_patient,'global.mat'],'-struct','patient','sc_data');
-    
-%% save visits info
-for ii=1:visit_number
-    str_visit = ['/visit_',num2str(ii)];
-    visit_to_save = patient.visit{ii};
-    save([path_patient,str_visit,'.mat'],'-struct','patient','visit_to_save');
-end
+
+
+%stats
+
+do_sc =  strcmp(patient.curv_type,'thickness') || strcmp(patient.curv_type,'sulc') ...
+         || strcmp(patient.curv_type,'curv');
+
+mean_stat(patient,path_patient,psz,par_lh,par_rh,do_sc);
+prctile_stat(patient,path_patient,psz,par_lh,par_rh,do_sc)
+
+%struct
+% save([path_patient,'p_',num2str(id),'.mat'],'patient','-v7.3');
 
 
 end
