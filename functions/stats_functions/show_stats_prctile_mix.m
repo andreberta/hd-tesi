@@ -20,6 +20,8 @@ for ii=2:length(labels)
     labels{ii} = ['v-',num2str(ii-1)];    
 end
 
+
+%% region-wise
 for ii=1:length(regions_to_show)
     
     pos = parc2pos(regions_to_show{ii});
@@ -44,8 +46,11 @@ for ii=1:length(regions_to_show)
     end
 end
 
+
+%% all regions 
+pos = 38;
 %read as a row x, make it a column with '
-x = stats(end,1:5*(visit_number))';
+x = stats(pos,1:5*(visit_number))';
 %reshape x in matrix form
 x = reshape(x,5,visit_number);
 %use the trick, add the median at the end of each rows, the median is
@@ -61,6 +66,50 @@ grid on;
     else
         saveas(gcf,['prctile_mix',num2str(mix_number),'-',title_,'.png'])
     end
+    
+%% young-mid / old regions
+if strcmp(curv_type,'thickness')
+    %young-mid
+    pos = 39;
+    %read as a row x, make it a column with '
+    x = stats(pos,1:5*(visit_number))';
+    %reshape x in matrix form
+    x = reshape(x,5,visit_number);
+    %use the trick, add the median at the end of each rows, the median is
+    %the middle value in each rows
+    y = [x ; x((1+end)/2,:)];
+    
+    draw_box_plot(y,labels);
+    title_ = ['p-',num2str(patient_id),'-',hemi,'-',curv_type,'-young-mid'];
+    title(title_),
+    grid on;
+    if ~save
+        pause
+    else
+        saveas(gcf,['prctile_mix',num2str(mix_number),'-',title_,'.png'])
+    end
+    
+    % old
+    pos = 40;
+    %read as a row x, make it a column with '
+    x = stats(pos,1:5*(visit_number))';
+    %reshape x in matrix form
+    x = reshape(x,5,visit_number);
+    %use the trick, add the median at the end of each rows, the median is
+    %the middle value in each rows
+    y = [x ; x((1+end)/2,:)];
+    
+    draw_box_plot(y,labels);
+    title_ = ['p-',num2str(patient_id),'-',hemi,'-',curv_type,'-old'];
+    title(title_),
+    grid on;
+    if ~save
+        pause
+    else
+        saveas(gcf,['prctile_mix',num2str(mix_number),'-',title_,'.png'])
+    end
+
+end
 
 close
 end

@@ -20,6 +20,8 @@ for ii=1:length(labels)
     labels{ii} = ['v-',num2str(ii+1)];    
 end
 
+
+%% region-wise
 for ii=1:length(regions_to_show)
     
     pos = parc2pos(regions_to_show{ii});
@@ -38,8 +40,11 @@ for ii=1:length(regions_to_show)
     end
         
 end
-y = stats(end,1:2:2*(visit_number-1));
-err = stats(end,2:2:2*(visit_number-1));
+
+%% all regions
+pos = 38;
+y = stats(pos,1:2:2*(visit_number-1));
+err = stats(pos,2:2:2*(visit_number-1));
 errorbar(x,y,err);
 xlim([x(1)-10 x(end)+10]);
 set(gca, 'XTick', x, 'XTickLabel', labels),
@@ -52,6 +57,40 @@ else
     saveas(gcf,['mean-',title_,'.png'])
 end
 
+%% young-mid/old regions
+if strcmp(curv_type,'thickness')
+    %young mid
+    pos = 39;
+    y = stats(pos,1:2:2*(visit_number-1));
+    err = stats(pos,2:2:2*(visit_number-1));
+    errorbar(x,y,err);
+    xlim([x(1)-10 x(end)+10]);
+    set(gca, 'XTick', x, 'XTickLabel', labels),
+    title_ = ['p-',num2str(patient_id),'-',hemi,'-',curv_type,'-',type,'-young-mid'];
+    title(title_),
+    grid on;
+    if ~save
+        pause
+    else
+        saveas(gcf,['mean-',title_,'.png'])
+    end
+    
+    %old
+    pos = 40;
+    y = stats(pos,1:2:2*(visit_number-1));
+    err = stats(pos,2:2:2*(visit_number-1));
+    errorbar(x,y,err);
+    xlim([x(1)-10 x(end)+10]);
+    set(gca, 'XTick', x, 'XTickLabel', labels),
+    title_ = ['p-',num2str(patient_id),'-',hemi,'-',curv_type,'-',type,'-old'];
+    title(title_),
+    grid on;
+    if ~save
+        pause
+    else
+        saveas(gcf,['mean-',title_,'.png'])
+    end
+end
 close
 end
 

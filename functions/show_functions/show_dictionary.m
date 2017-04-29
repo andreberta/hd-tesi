@@ -23,6 +23,7 @@ if no_noisy
     noise = noise(no_noisy);
     reshaped_D = reshaped_D(:,:,no_noisy);
     cols = sum(no_noisy);
+    cols
 end
 
 if logical(random_number)
