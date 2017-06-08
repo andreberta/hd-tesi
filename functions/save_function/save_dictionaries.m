@@ -23,7 +23,7 @@ mkdir(path)
 
 %% save images
 for ii=1:length(regions)
-    [img,~] = show_dictionary(data{1,ii},0,no_noisy,random_number);
+    [img,~] = show_dictionary(data{1,parc2pos(regions{ii})},0,no_noisy,random_number);
     name = [regions{ii},'_',hemi,'_',num2str(psz)];
     imwrite((img-min(img(:))) ./ (max(img(:)-min(img(:)))),[path,name,'.png']);
 end

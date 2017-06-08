@@ -20,11 +20,13 @@ end
 %% show
 figure,
 for ii=1:length(regions)
-    if isempty(data{1,ii})
+    pos = parc2pos(regions{ii});
+    if isempty(data{1,pos})
         continue
     end
-    [img,~] = show_dictionary(data{1,ii},0,no_noisy);
-    imagesc(img),colormap(gray),title(regions{ii}),pause;
+    [img,~] = show_dictionary(data{1,pos},0,no_noisy);
+    imagesc(img),colormap(gray),title(regions{ii});
+    pause();
 end
 
 
