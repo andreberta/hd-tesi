@@ -2,14 +2,12 @@ function [ dpr ] = SC_kde(dpr , patient_id , visits , curv_type , hemi , paramet
 
 
 lambda = parameter.lambda;
-regions = parc_region_value();
+regions = parameter.regions; 
+octave = parameter.octave;
 
 %% 
 for ii=1:length(regions)
 
-    if ii==4
-      ciao = 0;
-    end
 
     pos = parc2pos(regions{ii});
 
@@ -17,23 +15,24 @@ for ii=1:length(regions)
     disp('DENSITY ESTIMATION')
     disp(['Patient: ',num2str(patient_id)])
     disp(['Region: ',regions{ii},'(',num2str(ii),')']);
-    fflush(stdout);
+    disp(['Hemi: ',hemi]);
+    if octave fflush(stdout); end
 
     %get patches from which learn the dictionary
     disp(' Loading patches...');
-    fflush(stdout);
+    if octave fflush(stdout); end
     S = get_patches(patient_id , visits , parameter , regions{ii} , hemi , curv_type);
     
     %skip 
     if isempty(S)
     disp(' Number of patches is 0, skipping to next region.');
-    fflush(stdout);
+    if octave fflush(stdout); end
       continue;  
     end
     
     %learn density
     disp(' Computing indicators...');
-    fflush(stdout);
+    if octave fflush(stdout); end
     D = dpr{1,pos};
     X = bpdn(D,S,lambda);    
     err = sqrt(sum((D*X-S).^2,1));
@@ -41,14 +40,14 @@ for ii=1:length(regions)
     indicators = [err',l1'];
     
     disp(' Learning density...');
-    fflush(stdout);
+    if octave fflush(stdout); end
     [~,density,xx,yy]  = kde2d(indicators);
     kde_density.density = density;
     kde_density.X = xx;
     kde_density.Y = yy;
 
     disp(' Storing result...');
-    fflush(stdout);
+    if octave fflush(stdout); end
     dpr{2,pos} = kde_density;
 end
 

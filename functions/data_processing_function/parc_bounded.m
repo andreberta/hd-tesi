@@ -39,7 +39,7 @@ if strcmp(hemi,'lh')
     parameter.lh{pos}.right_bound = right_bound;
     parameter.lh{pos}.left_bound  = left_bound;
 else 
-    parameter.lh{pos}.parc_shrink = parc_shrink;
+    parameter.rh{pos}.parc_shrink = parc_shrink;
     parameter.rh{pos}.lower_bound = lower_bound;
     parameter.rh{pos}.upper_bound = upper_bound;
     parameter.rh{pos}.right_bound = right_bound;

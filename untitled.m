@@ -1,5 +1,5 @@
-iptsetpref('ImshowBorder','tight');
-hemi = 'lh';
+%iptsetpref('ImshowBorder','tight');
+hemi = 'rh';
 path_fun = parameter.path;
 resolution = parameter.resolution;
 psz = parameter.psz;
@@ -16,9 +16,10 @@ x = min_theta:dif_theta/(resolution/2):max_theta;
 y = min_phi:dif_phi/resolution:max_phi;
 [xq , yq] = meshgrid(x,y);
 
-curr_visit = 1;
-patient_id = 2;
+curr_visit = 2;
+patient_id = 'R008572786';
 curv_type = 'thickness';
+% regions = {'precuneus'};
 regions = parc_region_value();
 
 fsaverage_path = 'data/fsaverage/';
@@ -57,7 +58,7 @@ vert_polar = addSphericalCoord(vertices);
 
 
 
-
+% figure
 for ii=1:length(regions)
     pos = parc2pos(regions{ii});
     if strcmp(hemi,'lh')
@@ -93,26 +94,30 @@ for ii=1:length(regions)
         vert_new = rotate_vert(parameter,regions{ii},hemi);
         %interpolate
         img = surf_to_pyramid_rect(vert_new,v_curv,resolution,0,1,bound);
+        num_el_mask_rh(ii) = sum(mask(:));
+%         disp(['Pix img: ', num2str(numel(img))])
+%         disp(['Pix mask: ', num2str(numel(mask))])
         
         %extract patches
-        S = im2colstep(img,[psz,psz],[step,step]);
+%         S = im2colstep(img,[psz,psz],[step,step]);
         %select patches in the region
-        S = S(:,mask(up_:end-down_,up_:end-down_));
+%         S = S(:,mask(up_:end-down_,up_:end-down_));
         %remove mean
-        S = bsxfun(@minus,S,mean(S,1));
+%         S = bsxfun(@minus,S,mean(S,1));
         %remove black patches
-        [S,~] = remove_zeronorm_patches(S);
-        S = S(:,randperm(size(S,2)));
+%         [S,~] = remove_zeronorm_patches(S);
+%         S = S(:,randperm(size(S,2)));
         
         
         
-%         %show img rotated
-%         figure,imshow(img.*mask);
-%         %show img not rotated
+        %show img rotated
+%           figure(1),subplot(1,3,1),imshow(mask);
+%           figure(1),subplot(1,3,2),imshow(img.*mask);
+        %show img not rotated
 %         temp = (img_norot.*(aparc_norot==pos))';
 %         figure,imshow(temp);
-%         %show sphere
-%         figure
+        %show sphere
+%         figure(1),subplot(1,3,3)
 %         patch('vertices',             vertices,             ...
 %             'faces',                faces(:,[1 3 2]),     ...
 %             'facevertexcdata',      v_curv.*(aparc == pos),                 ...
@@ -121,26 +126,25 @@ for ii=1:length(regions)
 %         axis equal;
 %         colormap(gray);
         
-        %show some patches
-        number = 200;
-        res = show_dictionary(S,0,0,number);
-        min_res = min(res(:));
-        max_res = max(res(:));
-        subplot(1,2,1),imshow(res,[min_res,max_res]),title(['patch:',regions{ii}]);
-        %show dictionary
-        D = patient.sc_data.lh{1,pos};
-        res = show_dictionary(D,0,1,number);
-        min_res = min(res(:));
-        max_res = max(res(:));
-        subplot(1,2,2),imshow(res,[min_res,max_res]),title(['dictionary:',regions{ii}]);  
-        pause
-        %show density
-        kde = patient.sc_data.lh{2,pos};
+%         show some patches
+%         number = 200;
+%         res = show_dictionary(S,0,0,number);
+%         min_res = min(res(:));
+%         max_res = max(res(:));
+%         subplot(1,2,1),imshow(res,[min_res,max_res]),title(['patch:',regions{ii}]);
+%         show dictionary
+%         D = patient.sc_data.lh{1,pos};
+%         res = show_dictionary(D,0,1,number);
+%         min_res = min(res(:));
+%         max_res = max(res(:));
+%         subplot(1,2,2),imshow(res,[min_res,max_res]),title(['dictionary:',regions{ii}]);  
+%         pause
+%         show density
+%         kde = patient.sc_data.lh{2,pos};
 %         figure,surf(kde.X,kde.Y,kde.density,'LineStyle','none');
 %         xlabel('reconstruction-error');
 %         ylabel('sparsity')
 
-        
-        
+%        pause  
     end
 end

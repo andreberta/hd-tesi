@@ -41,6 +41,7 @@ if ~empty
     step = parameter.step;
     up_ = round(psz/2);
     down_ = up_ - 1;
+    octave = parameter.octave;
 
     
     
@@ -53,10 +54,10 @@ if ~empty
             curr_visit = visit(ii);
             
             disp(['  visit ',num2str(curr_visit),'...']);
-            fflush(stdout);
+            if octave  fflush(stdout); end
             
             %load curvature file
-            curr_path = path_fun(patient_id,ii);
+            curr_path = path_fun(patient_id,curr_visit);
             v_curv = load_mgh_file(curr_path,curv_type,hemi,0,0);
             vert_new = rotate_vert(parameter,region,hemi);
             %interpolate

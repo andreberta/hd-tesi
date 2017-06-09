@@ -13,7 +13,6 @@ val_prctile = zeros(length(regions),5*visit_number);
 %% compute
 for ii=1:length(regions)
     
-    val = [];
     pos = parc2pos(regions{ii});
     
     for jj=1:visit_number       

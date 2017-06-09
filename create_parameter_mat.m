@@ -7,6 +7,8 @@ parameter.resolution = 1600;
 parameter.dim_dict_mult = 0.5;
 parameter.psz = 31;
 parameter.lambda = 0.05;
+parameter.step = 1;
+parameter.regions = parc_region_value();
 
 
 parameter.lh = cell(length(parc_region_value()),1);
