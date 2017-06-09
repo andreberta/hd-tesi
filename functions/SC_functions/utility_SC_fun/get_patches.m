@@ -5,6 +5,7 @@ function [ res ] = get_patches(patient_id , visit , parameter , region , hemi , 
 
 pos = parc2pos(region);
 
+res = [];
 
 if strcmp(hemi,'lh')
     empty = isempty(parameter.lh{pos});

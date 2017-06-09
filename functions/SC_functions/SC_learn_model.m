@@ -28,6 +28,12 @@ for ii=1:length(regions)
     if octave fflush(stdout); end
     S = get_patches(patient_id , whole_visit , parameter , regions{ii} , hemi , curv_type);
     
+    %skip
+    if isempty(S)
+        disp(' Number of patches is 0, skipping to next region.');
+        if octave fflush(stdout); end
+        continue;
+    end
     
     if length(whole_visit) >= 2
         patch_number = size(S,2);
@@ -39,12 +45,7 @@ for ii=1:length(regions)
     end
     
     
-    %skip
-    if isempty(S)
-        disp(' Number of patches is 0, skipping to next region.');
-        if octave fflush(stdout); end
-        continue;
-    end
+
     
     %learn dict
     disp(' Learning dictionary')
