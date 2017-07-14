@@ -16,40 +16,33 @@ function [img] = surf_to_pyramid_rect(vertices,curv,resolution,parc,rect,bound)
 %   Bound used in the interpolation, limit the interpolation in the bounds
 %   defined by this parameter 
 
-
-max_theta = pi;
-min_theta = 0;
-max_phi = pi;
-min_phi = -pi;
-dif_theta = max_theta - min_theta;
-dif_phi = max_phi - min_phi;
-
-%resolutions for each dimension
-res_phi = resolution;
-if rect
-    res_theta = res_phi/2;
+%get the grid for the interpolation 
+if ~exist('bound','var')
+    [xq,yq] = regular_grid(resolution,rect);
 else
-    res_theta = res_phi;
+    [xq,yq] = regular_grid(resolution,rect,bound);
 end
 
-x = min_theta:dif_theta/res_theta:max_theta;
-y = min_phi:dif_phi/res_phi:max_phi;
+x_min = min(xq(:));
+y_min = min(yq(:));
+
+x_max = max(xq(:));
+y_max = max(yq(:));
+
+
+%select values used in the interpolation
 vert_x = vertices(:,5);
 vert_y = vertices(:,6);
+index = (vert_x >= x_min & vert_x <= x_max) & ...
+                (vert_y >= y_min & vert_y <= y_max);
 
-if nargin == 6
-  x = x(bound.left_bound:bound.right_bound);
-  y = y(bound.upper_bound:bound.lower_bound);
 
-  index = (vert_x >= x(1) & vert_x <= x(end)) & (vert_y >= y(1) & vert_y <= y(end));
-  
-  vert_x = vert_x(index);
-  vert_y = vert_y(index);
-  curv = curv(index);
-end
 
-[xq , yq] = meshgrid(x,y);
+vert_x = vert_x(index);
+vert_y = vert_y(index);
+curv = curv(index);
 
+%interpolate
 if ~parc
     img = griddata(vert_x,vert_y,curv,xq,yq); %linear
 else

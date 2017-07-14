@@ -8,6 +8,7 @@ fwhm = num2str(fwhm);
 path_complete_crv = [path,'surf/',hemi,'.',curv_type,'.','fwhm',fwhm,'.fsaverage.mgh'];
 res = MRIread(path_complete_crv);
 v_curv = res.vol(:);
+
 %process data
 if ~raw
     area =  strcmp(curv_type,'area') || strcmp(curv_type,'area.pial'); 

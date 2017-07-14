@@ -1,4 +1,4 @@
-function [ dpr ] = SC_learn_model(patient_id,visit_distr,curv_type,hemi,parameter,percentage)
+function [ dpr ] = SC_learn_model(patient_id,visit_distr,curv_type,hemi,parameter,percentage,dpr)
 %SC_LEARN_MODEL
 
 octave = parameter.octave;
@@ -6,10 +6,12 @@ lambda = parameter.lambda;
 dict_dim_mult = parameter.dim_dict_mult;
 regions = parameter.regions;
 psz = parameter.psz;
-dpr = cell(2,length(regions));
 whole_visit = [visit_distr.dict_learn,visit_distr.density_estimation];
 whole_visit = unique(whole_visit);
 
+if ~exist('dpr','var')    
+    dpr = cell(2,length(regions));
+end
 
 %% learn dictionary
 for ii=1:length(regions)
@@ -26,8 +28,8 @@ for ii=1:length(regions)
     %get patches from which learn the dictionary
     disp(' Loading patches...');
     if octave fflush(stdout); end
-    S = get_patches(patient_id , whole_visit , parameter , regions{ii} , hemi , curv_type);
-    
+    S = get_patches_multiple(patient_id,whole_visit,parameter,regions{ii},...
+                                        hemi,curv_type,1);
     %skip
     if isempty(S)
         disp(' Number of patches is 0, skipping to next region.');

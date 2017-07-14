@@ -62,13 +62,13 @@ while condition
     w = waitforbuttonpress;
     if w == 1
         key = double(get(gcf,'currentcharacter'));
-        if key == 28 || key == 31 || key == 127 || key == 8
+        if key == 28 || key == 31 
             if ii-1 == 0
                 ii = length(regions);
             else
                 ii = ii -1;
             end
-        else if key == 29 || key == 30 || key == 13 || key == 32
+        else if key == 29 || key == 30 
                 if ii+1 > length(regions)
                     ii = 1;
                 else

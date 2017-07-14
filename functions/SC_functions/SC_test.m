@@ -21,7 +21,7 @@ for jj=1:length(visits)
         %get patches to test
         disp(' Loading patches...');
         if octave fflush(stdout); end
-        S = get_patches_test(patient_id,visits(jj),parameter,...
+        [S,~] = get_patches(patient_id,visits(jj),parameter,...
                                     regions{ii},hemi,curv_type);
 
         

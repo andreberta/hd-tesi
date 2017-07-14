@@ -181,6 +181,10 @@ GS = G'*S;
 k = 1;
 while k <= opt.MaxMainIter && (rx > eprix|sx > eduax|rd > eprid|sd >eduad),
 
+  if ~mod(k,100)
+	disp(['Iteration: ',num2str(k)]);
+  end
+
   % Solve X subproblem, using G as the dictionary for improved stability
   [luLx, luUx] = factorise(G, rho);
   X = linsolveX(G, rho, luLx, luUx, GS + rho*(Y - U));

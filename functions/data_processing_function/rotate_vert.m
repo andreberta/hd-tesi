@@ -1,5 +1,7 @@
 function [ vert_new ] = rotate_vert( parameter , region , hemi )
-%ROTATE_VERT
+%ROTATE_VERT Rotate a set of vertices according to the type of region and
+%the hemisphere (the rotation are stored in the parameter variable, which s
+%created with the create_parameter_mat.m script).r
 
 pos = parc2pos(region);
 

@@ -19,8 +19,6 @@ function draw_boxplot(data,groups,width,title_,save)
 %save is an optional parameter, is a string containing the name of the destination
 % file. If this parameter is defined the plot will be saved as an image, otherwise not
 
-if nargin
-
 
 %%check variable
 group_number = length(groups);
