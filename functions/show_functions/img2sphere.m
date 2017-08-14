@@ -1,4 +1,4 @@
-function [final] = img2sphere(visit,hemi,parameter,p_struct)
+function [final] = img2sphere(patient_id,visit,hemi,parameter,curv_type)
 %Project the anomaly score on he sphere
 
 %check input
@@ -6,16 +6,18 @@ if ~strcmp(hemi,'lh') && ~strcmp(hemi,'rh')
     error('%s hemi does not exist.', hemi);
 end
 
-visit_index = find(p_struct.visits_distr.visit_tested==visit);
+%load patient
+path = ['extracted_data/',curv_type,'/','patient_',num2str(patient_id),'/'];
+load([path,'patient.mat']);
 
+visit_index = find(patient.visits_distr.visit_tested==visit);
 if isempty(visit_index)
     error('Visit %d does not exist.',visit);
 end
 
-
 % General variable initialization
-patient_id = p_struct.id;
-curv_type = p_struct.curv_type;
+patient_id = patient.id;
+curv_type = patient.curv_type;
 rect = 1;
 region = parc_region_value();
 resolution = parameter.resolution;
@@ -27,11 +29,11 @@ down_ = up_ - 1;
 if strcmp(hemi,'lh')
     final = zeros(length(parameter.vert_lh),1);
     sum = zeros(length(parameter.vert_lh),1);
-    res = p_struct.res.lh;
+    res = patient.res.lh;
 else
     final = zeros(length(parameter.vert_rh),1);
     sum = zeros(length(parameter.vert_rh),1);
-    res = p_struct.res.rh;
+    res = patient.res.rh;
 end
 
 

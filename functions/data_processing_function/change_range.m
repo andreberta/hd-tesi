@@ -1,4 +1,4 @@
-function [ new_value ] = change_range( values )
+function [ new_value ] = change_range( values)
 %CHANGE_RANGE Set the range of values to be in [0.1]
 
 old_max = max(values);

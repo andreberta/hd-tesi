@@ -1,10 +1,15 @@
-function [ res ] = SC_test(dpr , patient_id , visits , curv_type , hemi , parameter)
+function [ res ] = SC_test(dpr , patient_id , visits , curv_type , hemi , parameter , values)
 
 lambda = parameter.lambda;
 regions = parameter.regions; 
 res.vsitis = visits;
-res.values = cell(length(regions),length(visits));
 octave = parameter.octave;
+
+if ~exist('values','var')
+    res.values = cell(length(regions),length(visits));
+else
+    res.values = values;
+end
 
 for jj=1:length(visits)
     for ii=1:length(regions)

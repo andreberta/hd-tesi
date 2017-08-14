@@ -1,18 +1,22 @@
 function [ img ] = img_rotated( id , visit , curv_type , region ,...
-                                        hemi , parameter  )
+                                        hemi , parameter , raw )
 %IMG_ROTATED Return the image of a region given the patien id, a visit and the
 %hemisphere
-
+%%
 %get used parameter
 resolution = parameter.resolution;
 path_fun = parameter.path;
+
+if ~exist('raw','var')
+    raw = 0;
+end
 
 %get bound
 bound  = get_bound(parameter,hemi,region);
 
 %get curvature value
 curr_path = path_fun(id,visit);
-v_curv = load_mgh_file(curr_path,curv_type,hemi,0,0);
+v_curv = load_mgh_file(curr_path,curv_type,hemi,0,raw);
 vert_new = rotate_vert(parameter,region,hemi);
 
 %interpolate

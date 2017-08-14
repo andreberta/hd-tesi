@@ -1,13 +1,11 @@
-function show_stas_freesurfer(patient_id,visit_number,hemi,type,errorbar_boxplot,region_to_show)
+function show_stas_freesurfer(patient_id,visit_number,hemi,curv_type,...
+                                        errorbar_boxplot,parameter)
 %SHOW_STAS_FREESURFER
 
-
+%% initialization
 region = parc_region_value();
 values = cell(length(region),visit_number);
 
-if exist('region_to_show','var')
-    region = region_to_show;
-end
 
 %parc info
 fsaverage_path = 'data/fsaverage/';
@@ -16,9 +14,9 @@ fsaverage_path = 'data/fsaverage/';
 %% retrieve values from curv file
 
 for ii=1:visit_number
-    curr_path = path_new_data( patient_id , ii  );
+    curr_path = parameter.path( patient_id , ii  );
     
-    v_curv = load_mgh_file(curr_path,type,hemi,0,1);
+    v_curv = load_mgh_file(curr_path,curv_type,hemi,0,1);
     
     for jj=1:length(region)
     
@@ -31,7 +29,7 @@ end
 
 
 
-
+%% show values
 figure,
 labels = get_labels(visit_number);
 x = 10:10:(visit_number)*10;
@@ -58,7 +56,7 @@ for jj=1:length(region)
 
     end
     
-    title_ = [type,'-p-',num2str(patient_id),'-',hemi,'-',region{jj}];
+    title_ = [curv_type,'-p-',num2str(patient_id),'-',hemi,'-',region{jj}];
     if errorbar_boxplot
         errorbar(x,val_to_plot(1,:),val_to_plot(2,:));
         xlim([x(1)-10 x(end)+10]);
@@ -100,7 +98,7 @@ if errorbar_boxplot
 else
     draw_box_plot(val_to_plot,labels)
 end
-title([type,'-p-',num2str(patient_id),'-',hemi,'-all']),
+title([curv_type,'-p-',num2str(patient_id),'-',hemi,'-all']),
 grid on;
 
 pause
