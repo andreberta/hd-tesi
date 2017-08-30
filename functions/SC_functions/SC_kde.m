@@ -13,8 +13,7 @@ X = bpdn(D,patch_phi,lambda);
 
 
 %% learn density
-disp(' Learning density...');
-if octave fflush(stdout); end
+
 
 %compute indicators
 err = sqrt(sum((D*X-patch_phi).^2,1));
@@ -23,6 +22,8 @@ l1 = sum(abs(X),1);
 
 if ~mean_
     %% 2d KDE
+    disp(' Learning density (2D)...');
+    if octave fflush(stdout); end
     indicators = [err',l1'];
     [~,density,xx,yy]  = kde2d(indicators);
     kde_density.density = density;
@@ -30,6 +31,8 @@ if ~mean_
     kde_density.Y = yy;
 else
     %% 3d KDE
+    disp(' Learning density (3D)...');
+    if octave fflush(stdout); end
     indicators = [err',l1',mean_phi'];
     % total grid points = ng^d
     [~,d]=size(indicators);
