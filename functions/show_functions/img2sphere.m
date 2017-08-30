@@ -7,7 +7,7 @@ if ~strcmp(hemi,'lh') && ~strcmp(hemi,'rh')
 end
 
 %load patient
-path = ['extracted_data/',curv_type,'/','patient_',num2str(patient_id),'/'];
+path = parameter.save_path(curv_type,patient_id);
 load([path,'patient.mat']);
 
 visit_index = find(patient.visits_distr.visit_tested==visit);

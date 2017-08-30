@@ -1,4 +1,4 @@
-function [val_mean,val_prctile] = get_mean_median(res,visits)
+function [val_mean,val_prctile] = get_mean_median(val,visits)
 
 
 %% variable inizialization
@@ -16,7 +16,7 @@ for ii=1:length(regions)
     pos = parc2pos(regions{ii});
     
     for jj=1:visit_number       
-        curr_value = res.values{pos,jj};
+        curr_value = val{pos,jj};
         
         %skip in case the values are empty
         if isempty(curr_value)

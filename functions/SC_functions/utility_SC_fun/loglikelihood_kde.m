@@ -24,29 +24,22 @@ function v = loglikelihood_kde(kde_density,samples)
 % Author: Diego Carrera
 % diego.carrera@polimi.it
 
-if (isfield(kde_density,'Y'))
-%     x_grid = kde_density.X(1,:)';
-%     y_grid = kde_density.Y(:,1)';
-%     xq = samples(:,1);
-%     yq = samples(:,2);
-%     x_ind = interp1(x_grid,1:length(x_grid),xq,'nearest');
-%     y_ind = interp1(y_grid,1:length(y_grid),yq,'nearest');
-%     
-%     ind = x_ind + length(x_grid)*(y_ind-1);
-%     val = zeros(size(ind));
-%     val(~isnan(ind)) = kde_density.density(ind(~isnan(ind)));
-%     v = -log(val)';
-    
-    temp = -log(kde_density.density);
-    v = interp2(kde_density.X,kde_density.Y,temp,samples(:,1),samples(:,2));
-
-
-    
-else
-    x_grid = kde_density.X(:)';
-    xq = samples(:);
-    x_ind = interp1(x_grid,1:length(x_grid),xq,'nearest');
-    v = -log(kde_density.density(x_ind))';
+if isfield(kde_density,'Z')
+    %% 3D density
+    temp = reshape(-log(kde_density.density),size(kde_density.X));
+    v = interp3(kde_density.X,kde_density.Y,kde_density.Z,temp,...
+        samples(:,1),samples(:,2),samples(:,3));
+else if isfield(kde_density,'Y')
+        %% 2D density
+        temp = -log(kde_density.density);
+        v = interp2(kde_density.X,kde_density.Y,temp,samples(:,1),samples(:,2));
+    else
+        %% 1D density
+        x_grid = kde_density.X(:)';
+        xq = samples(:);
+        x_ind = interp1(x_grid,1:length(x_grid),xq,'nearest');
+        v = -log(kde_density.density(x_ind))';
+    end
 end
 
 % remove inf and nan values
@@ -54,11 +47,8 @@ a= (v(:)==inf | isnan(v(:)));
 v(a) = -inf;
 b = max(v(:));
 v(a) = b;
+end
 
-% a = find(v==inf);
-% v(a) = -inf;
-% b = max(v);
-% v(a) = b;
 
 
 

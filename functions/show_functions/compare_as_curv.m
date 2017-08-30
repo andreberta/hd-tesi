@@ -14,7 +14,7 @@ regions = parc_region_value();
 
 
 % load anomaly score data
-path = ['extracted_data/',curv_type,'/','patient_',num2str(patient_id),'/'];
+path = parameter.save_path(curv_type,patient_id);
 name = [stats_type,'_p',num2str(patient_id),'_',hemi];
 data = dlmread([path,name,'.txt']);
 

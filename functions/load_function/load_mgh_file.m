@@ -5,7 +5,7 @@ function [v_curv] = load_mgh_file(path,curv_type,hemi,fwhm,raw)
 
 fwhm = num2str(fwhm);
 
-path_complete_crv = [path,'surf/',hemi,'.',curv_type,'.','fwhm',fwhm,'.fsaverage.mgh'];
+path_complete_crv = [pwd,'/',path,'surf/',hemi,'.',curv_type,'.','fwhm',fwhm,'.fsaverage.mgh'];
 res = MRIread(path_complete_crv);
 v_curv = res.vol(:);
 

@@ -4,7 +4,7 @@ function hist_as(patient_id,hemi,curv_type )
 regions = parc_region_value();
 
 % read data
-path = ['extracted_data/',curv_type,'/','patient_',num2str(patient_id),'/'];
+path = parameter.save_path(curv_type,patient_id);
 load([path,'patient.mat']);
 %select hemi res
 if strcmp(hemi,'lh')

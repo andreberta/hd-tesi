@@ -1,4 +1,4 @@
-function show_stats_patient(patient_id,hemi,curv_type,save,visits)
+function show_stats_patient(patient_id,hemi,curv_type,parameter,visits,save)
 %SHOW_STATS_PATIENT
 
 %input check
@@ -7,14 +7,14 @@ if ~(strcmp(hemi,'lh') || strcmp(hemi,'rh'))
 end
 
 stats_type = 'prctile';
-regions = parc_region_value();
-
-
+regions = parameter.regions;
 
 % read data
-path = ['extracted_data/',curv_type,'/','patient_',num2str(patient_id),'/'];
+path = parameter.save_path(curv_type,patient_id);
 name = [stats_type,'_p',num2str(patient_id),'_',hemi];
 data = dlmread([path,name,'.txt']);
+
+
 
 visit_number = length(visits);
 
