@@ -30,7 +30,7 @@ for ii=1:length(regions)
     %get patches from which learn the dictionary
     disp(' Loading patches...');
     if octave fflush(stdout); end
-    [S,S_mean] = get_patches_multiple(patient_id,whole_visit,parameter,regions{ii},...
+    [S,S_mean,index] = get_patches_multiple(patient_id,whole_visit,parameter,regions{ii},...
         hemi,curv_type,1);
     %skip
     if isempty(S)
@@ -66,6 +66,7 @@ for ii=1:length(regions)
     if octave fflush(stdout); end
     dpr{1,pos} = D;
     dpr{2,pos} = kde_density;
+    dpr{3,pos} = index;
     
     if strcmp(hemi,'lh')
         save('dpr_lh.mat','dpr');

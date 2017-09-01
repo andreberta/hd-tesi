@@ -1,4 +1,4 @@
-function [ S , S_mean] = get_patches_multiple(patient_id,visit,parameter,region,...
+function [ S , S_mean , index] = get_patches_multiple(patient_id,visit,parameter,region,...
                                         hemi,curv_type,random_)
 %GET_PATCHES_MULTIPLE Return patches taken from one or more visits of a
 %single patient, of a specified region and hemisphere.
@@ -14,6 +14,8 @@ octave = parameter.octave;
 if ~parameter.mean
     S_mean = [];
 end
+
+index = [];
 
 for ii=1:length(visit)
     
@@ -31,6 +33,7 @@ for ii=1:length(visit)
         rand_index = randperm(patch_number);
     end
     S(:,curr:curr+patch_number-1) = curr_patch(:,rand_index);
+    index = [index,rand_index];
     
     if parameter.mean
         S_mean(:,curr:curr+patch_number-1) = curr_patch_mean(rand_index);
