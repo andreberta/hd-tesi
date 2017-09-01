@@ -36,7 +36,7 @@ else
     indicators = [err',l1',mean_phi'];
     % total grid points = ng^d
     [~,d]=size(indicators);
-    ng=150;
+    ng=100;
     
     
     % create meshgrid in 3-dimensions

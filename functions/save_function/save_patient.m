@@ -36,5 +36,5 @@ function save_patient(patient_id,curv_type,dpr,res,visits_distr,parameter)
     patient.res.rh = val_rh;
     
     %save patient struct
-    save([path,'patient.mat'],'patient');
+    save([path,'patient.mat'],'patient','-v7.3');
 end
