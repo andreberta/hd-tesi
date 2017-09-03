@@ -1,5 +1,5 @@
 function [ S , S_mean , index] = get_patches_multiple(patient_id,visit,parameter,region,...
-                                        hemi,curv_type,random_)
+    hemi,curv_type,random_)
 %GET_PATCHES_MULTIPLE Return patches taken from one or more visits of a
 %single patient, of a specified region and hemisphere.
 %Return also the set of index of the patches in the extracted from the
@@ -29,16 +29,20 @@ for ii=1:length(visit)
     
     %store and randomize their position
     patch_number = size(curr_patch,2);
-    if random_
-        rand_index = randperm(patch_number);
-    end
-    S(:,curr:curr+patch_number-1) = curr_patch(:,rand_index);
-    index = [index,rand_index];
-    
+    S(:,curr:curr+patch_number-1) = curr_patch;
+    %store mean if required
     if parameter.mean
-        S_mean(:,curr:curr+patch_number-1) = curr_patch_mean(rand_index);
+        S_mean(:,curr:curr+patch_number-1) = curr_patch_mean;
     end
     curr = curr+patch_number;
+end
+
+total_patch_number = size(S,2);
+if random_
+    rand_index = randperm(total_patch_number);
+    index = rand_index;
+    S = S(:,index);
+    S_mean = S_mean(:,index);
 end
 
 end
