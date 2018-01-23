@@ -1,7 +1,8 @@
 function [ res ] = curvature_value()
 %CURVATURE_VALUE Return a cell array contatining all the possible names of
-%curvature file
+%curvature file produced by FreeSurfer
 
+%%
 res = { 'area',             'sulc', ...
         'thickness',        'area.pial',...
         'volume',           'avg_curv',...

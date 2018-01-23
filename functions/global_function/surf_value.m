@@ -1,7 +1,7 @@
 function [ res ] = surf_value()
 %SURF_VALUE Return a cell array contatining all the possible names of
-%surface file
-
+%surface file produced by FreeSurfer
+%%
 res = { 'inflated',        'inflated.nofix',...
          'inflated.nofix',  'orig',          ...
          'orig.nofix',      'pial',...

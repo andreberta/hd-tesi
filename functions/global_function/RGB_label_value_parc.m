@@ -1,12 +1,14 @@
 function [ res ] = RGB_label_value_parc()
 %RGB_LABEL_VALUE_PARC Return a vector containing the RGB code of the parc
-%region, these values should be in the same order of values returned by
-%parc_region_value.m
+%region
+% See also doc of parc_region_value function
 
 
 %NOTE : the last value (1639705) should be the value for unknown in this
 %case but it is not actualy use, instead is use the first unknown 
 %(#0 in LUT). I have addet it in case it appears.
+
+%%
 res = [0       , 2647065 , 10511485 , 6500    , 3294840 , 6558940  ,660700 ...
        9231540 ,7874740   ,9180300  ,9182740  ,3296035   ,9211105 ...
        4924360 , 3302560 , 3988500  , 3988540 , 9221340 , 3302420  ,1326300 ...

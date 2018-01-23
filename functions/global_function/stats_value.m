@@ -1,7 +1,7 @@
 function [ res ] = stats_value()
 %STATS_VALUE Summary Return a cell array contatining all the possible names of
-%stats file
-
+%stats file produced by FreeSurfer
+%%
 res = {'aseg.stats',		        'curv.stats'...	       
          'aparc.a2009s.stats',	    'entorhinal_exvivo.stats'...  
          'aparc.DKTatlas40.stats',  'w-g.pct.stats'...	       

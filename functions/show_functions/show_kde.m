@@ -36,7 +36,7 @@ end
 function show_kde_inner(d_strcut)
 
 if ~isfield(d_strcut,'Z')
-    surf(d_strcut.X,d_strcut.Y,d_strcut.density,'Lynestyle','None');
+    surf(d_strcut.X,d_strcut.Y,d_strcut.density,'Linestyle','None');
     view(2);
     xlabel('Reconstruction Error');
     ylabel('Sparsity');

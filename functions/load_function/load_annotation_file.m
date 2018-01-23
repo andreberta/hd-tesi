@@ -1,17 +1,32 @@
-function [ v_curv_parc_region , vertex_per_parc_region , colortable ] = ...
-                                load_annotation_file( path , annot , hemi )
-%LOAD_ANNOTATION_FILE Load an annotation file and return all the info.
+function [v_curv_parc_region,vertex_per_parc_region,colortable ] = ...
+                                load_annotation_file(path,annot_name,hemi)
+%%                            
+%LOAD_ANNOTATION_FILE Load an annotation file and return all the info in it
 %
-% OUTPUT : 	- v_curv_parc_region : treat the parcellation value as a curvature file,
-%        	- vertex_per_parc_region : a cell array, with a cell for each region,
-%		  each cell contain a logical array to select vertices for that region
-%		  e.g.  paracentral_vert = vertex_per_parc_region{parc2pos('paracentral')}.
-%		- colortable : a struct contating information about the values contatined in
-%		  the annotation file
+%INPUT:
+%   path: path of the patient
+%
+%   annot_name: name of the annotation file you want to load
+%   
+%   hemi: the hemisphere you are considering
+%
+% OUTPUT:
+%   v_curv_parc_region : treat the parcellation value as a curvature file
+%
+%   vertex_per_parc_region : a cell array, with a cell for each region
+%	each cell contain a logical array to select vertices for that region
+%	e.g.  paracentral_vert = vertex_per_parc_region{parc2pos('paracentral')}.
+%
+%	colortable : a struct contating information about the values contatined in
+%	the annotation file
 
-annot_file = annotaion_value();
+%% Computation
+if ~(strcmp(hemi,'lh') || strcmp(hemi,'rh'))
+    error('Hemi: %s does not exists',hemi);
+end
 
-path_complete_annot = [path,'label/',hemi,'.',annot_file{annot}];
+%load annotation file
+path_complete_annot = [path,'label/',hemi,'.',annot_name];
 [vertices_annot, label_annot, colortable] = read_annotation(path_complete_annot,0);
 vertices_annot = vertices_annot + 1;
 

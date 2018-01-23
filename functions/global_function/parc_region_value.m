@@ -1,9 +1,24 @@
 function [ res ] = parc_region_value()
 %PARC_REGION_VALUE Return a cell array contatining all the possible names of
-%parc region,these values should be in the same order of values returned by
-%RGB_label_value_parc.m
+%region according to the DK atlas.
+%Some Notes: 
+%   unknown region, which corresponds to RGB value 0, should not be
+%   included in the analysis. It corresponds to the black area, and its
+%   sourrandings, that you can see on the cortical surfaces
+%
+%   UNKNOWN region, which corresponds to RGB value 1639705, should not be
+%   included in the analysis. I have notice that in some cases, it appears 
+%   in the parcellation, but it should not appear in the fsaverage one
+%
+%   there is a strong coupling between the result of this function and the
+%   result of the function in RGB_label_value_parc: the result in position
+%   ii of the RGB_label_value_parc function is the RGB code of the region
+%   in position ii of this function.
+%
+%   If you want to add a new region, you just need to append its name on
+%   the list below and its RGB code in the list of RGB_label_value_parc
 
-
+%%
 res = {'unknown',              'bankssts',            'caudalanteriorcingulate',...  
        'caudalmiddlefrontal',  'corpuscallosum',      'cuneus',...                  
        'entorhinal',           'fusiform',            ...        

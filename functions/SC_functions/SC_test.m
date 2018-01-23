@@ -1,14 +1,47 @@
-function values = SC_test(dpr,patient_id,visits,curv_type,hemi,parameter,values)
+function values = SC_test(dpr,patient_id,visits,hemi,parameter,values)
 
+%% 
+%SC_TEST Compute anomaly scores for a patient, defined by patient_id, in
+%the visits defined by visits
+%
+%INPUT:
+%   dpr: the cell array returned by SC_learn_model function
+%
+%   patient_id: the id of the patient
+%
+%   visits: a vector containing the visits to test
+%
+%   curv_type: the curvature type you are considering
+%
+%   hemi: the hemisphere you are considering
+%
+%   parameter: parameter variable computed using create_parameter_mat
+%
+%   values (OPTIONAL): 
+%
+%OUTPUT:
+%
+
+%% check input
+if ~(strcmp(hemi,'lh') || strcmp(hemi,'rh'))
+    error('Hemi: %s does not exists',hemi);
+end
+
+
+%% Initaliziation
 lambda = parameter.lambda;
 regions = parameter.regions;
 octave = parameter.octave;
-
 mean_ = parameter.mean;
+curv_type = parameter.curv_type;
+
 
 if ~exist('values','var')
     values = cell(length(parc_region_value()),length(visits));
 end
+
+%% Computation
+
 
 
 for jj=1:length(visits)
@@ -44,7 +77,7 @@ for jj=1:length(visits)
         if octave fflush(stdout); end
         D = dpr{1,pos};
         kde = dpr{2,pos};
-                X = bpdn(D,S,lambda);
+        X = bpdn(D,S,lambda);
         
         err = sqrt(sum((D*X-S).^2));
         l1 = sum(abs(X));
